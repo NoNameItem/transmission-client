@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { useSessionStore } from '@/stores/session'
+
+const sessionStore = useSessionStore()
+
+sessionStore.fetchSessionStats()
+</script>
+
 <template>
   <div>
     <VCard
