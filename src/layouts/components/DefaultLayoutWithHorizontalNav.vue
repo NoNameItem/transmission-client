@@ -24,6 +24,8 @@ watch([isFallbackStateActive, refLoadingIndicator], () => {
 // !SECTION
 
 const sessionStats = useSessionStore()
+
+sessionStats.fetchSessionStats()
 </script>
 
 <template>
@@ -52,7 +54,6 @@ const sessionStats = useSessionStore()
       <VSpacer />
 
       <NavbarThemeSwitcher class="me-2" />
-      <!--      <UserProfile /> -->
     </template>
 
     <AppLoadingIndicator ref="refLoadingIndicator" />

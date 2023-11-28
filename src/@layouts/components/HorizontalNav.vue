@@ -1,27 +1,62 @@
 <script lang="ts" setup>
-import { HorizontalNavGroup, HorizontalNavLink } from '@layouts/components'
-import type { HorizontalNavItems, NavGroup, NavLink } from '@layouts/types'
+import { useTorrentListStore } from '@/stores/torrentList'
+import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
 
-defineProps<{
-  navItems: HorizontalNavItems
-}>()
+const torrentListStore = useTorrentListStore()
 
-const resolveNavItemComponent = (item: NavLink | NavGroup) => {
-  if ('children' in item)
-    return HorizontalNavGroup
+const statuses = Object.values(TorrentStatus)
+  .filter(v => typeof v === 'number')
+  .map(v => ({ id: v, title: getStatusName(v as TorrentStatus) }))
 
-  return HorizontalNavLink
-}
+const sortFields = [
+  { key: 'name', label: 'Name' },
+  { key: 'etaNulled', label: 'Remaining time' },
+  { key: 'queuePosition', label: 'Queue position' },
+  { key: 'rateDownload', label: 'Download speed' },
+  { key: 'rateUpload', label: 'Upload speed' },
+  { key: 'uploadRatio', label: 'Ratio' },
+  { key: 'status', label: 'Status' },
+]
 </script>
 
 <template>
   <ul class="nav-items">
-    <Component
-      :is="resolveNavItemComponent(item)"
-      v-for="(item, index) in navItems"
-      :key="index"
-      :item="item"
-    />
+    <li class="nav-link">
+      <AppSelect
+        v-model="torrentListStore.statusesForFilter"
+        :items="statuses"
+        :menu-props="{ maxHeight: '400' }"
+        item-title="title"
+        item-value="id"
+        label="Show"
+        multiple
+        placeholder="All"
+      />
+    </li>
+    <li class="nav-link">
+      <AppTextField
+        v-model="torrentListStore.filterString"
+        label="Filter"
+        clearable
+      />
+    </li>
+    <li class="nav-link">
+      <AppSelect
+        v-model="torrentListStore.sortByField"
+        :items="sortFields"
+        :menu-props="{ maxHeight: '400' }"
+        item-title="label"
+        item-value="key"
+        label="Sort by"
+      />
+    </li>
+    <li class="nav-link">
+      <VSwitch
+        v-model="torrentListStore.sortDescending"
+        class="one-line"
+        label="Reverse"
+      />
+    </li>
   </ul>
 </template>
 
@@ -31,5 +66,14 @@ const resolveNavItemComponent = (item: NavLink | NavGroup) => {
     display: flex;
     flex-wrap: wrap;
   }
+}
+
+.nav-link {
+  margin-right: 10px;
+  min-width: 150px;
+}
+
+.one-line {
+  margin-top: 35px;
 }
 </style>

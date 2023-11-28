@@ -46,7 +46,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
 
     // indentation (Already present in TypeScript)
-    'indent': ['error', 2],
+    // 'indent': ['error', 2],
 
     // Enforce trailing comma (Already present in TypeScript)
     'comma-dangle': ['error', 'always-multiline'],

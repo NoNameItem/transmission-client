@@ -1,33 +1,30 @@
 <script setup lang="ts">
-import { useSessionStore } from '@/stores/session'
+import { useTorrentListStore } from '@/stores/torrentList'
+import { useSettingsStore } from '@/stores/settings'
 
-const sessionStore = useSessionStore()
+const torrentListStore = useTorrentListStore()
+const settingsStore = useSettingsStore()
 
-sessionStore.fetchSessionStats()
+await torrentListStore.fetchTorrentList()
+await settingsStore.fetchSettings(true)
 </script>
 
 <template>
   <div>
-    <VCard
-      class="mb-6"
-      title="Kick start your project 🚀"
+    <VList
+      v-if="torrentListStore.torrents.length > 0"
+      v-model:selected="torrentListStore.selectedTorrents"
+      lines="two"
+      select-strategy="classic"
     >
-      <VCardText>All the best for your new project.</VCardText>
-      <VCardText>
-        Please make sure to read our <a
-          href="https://demos.pixinvent.com/vuexy-vuejs-admin-template/documentation/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-decoration-none"
-        >
-          Template Documentation
-        </a> to understand where to go from here and how to use our template.
-      </VCardText>
-    </VCard>
+      <template
+        v-for="(torrent, index) of torrentListStore.torrents"
+        :key="torrent.id"
+      >
+        <TorrentListItem :torrent="torrent" />
 
-    <VCard title="Want to integrate JWT? 🔒">
-      <VCardText>We carefully crafted JWT flow so you can implement JWT with ease and with minimum efforts.</VCardText>
-      <VCardText>Please read our  JWT Documentation to get more out of JWT authentication.</VCardText>
-    </VCard>
+        <VDivider v-if="index !== torrentListStore.torrents.length - 1" />
+      </template>
+    </VList>
   </div>
 </template>
