@@ -8,7 +8,7 @@ export const useTorrentListStore = defineStore(
   () => {
     const _torrents: Ref<TorrentListInfo[]> = ref([])
 
-    const selectedTorrents: Ref<number[]> = ref([21])
+    const selectedTorrents: Ref<number[]> = ref([])
 
     const statusesForFilter: Ref<TorrentStatus[]> = ref([])
     const filterString: Ref<string | null> = ref(null)
@@ -17,7 +17,10 @@ export const useTorrentListStore = defineStore(
 
     const torrents = computed(
       () => sortArray(_torrents.value
-        .map(torrent => ({ ...torrent, etaNulled: torrent.error === 0 && torrent.eta >= 0 && (torrent.status === TorrentStatus.Downloading || torrent.status === TorrentStatus.Seeding) ? torrent.eta : null }))
+        .map(torrent => ({
+          ...torrent,
+          etaNulled: torrent.error === 0 && torrent.eta >= 0 && (torrent.status === TorrentStatus.Downloading || torrent.status === TorrentStatus.Seeding) ? torrent.eta : null,
+        }))
         .filter(torrent => (statusesForFilter.value.length === 0 || statusesForFilter.value.includes(torrent.status)))
         .filter(torrent => (!filterString.value || RegExp(filterString.value, 'ig').test(torrent.name))),
       { by: sortByField.value, order: sortDescending.value ? 'desc' : 'asc' }),
@@ -67,6 +70,36 @@ export const useTorrentListStore = defineStore(
       setTimeout(fetchTorrentList, 5000)
     }
 
+    const clearSelection = () => {
+      selectedTorrents.value = []
+    }
+
+    const startSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'torrent-start',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
+    const stopSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'torrent-stop',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
     return {
       torrents,
       selectedTorrents,
@@ -75,6 +108,9 @@ export const useTorrentListStore = defineStore(
       sortByField,
       sortDescending,
       fetchTorrentList,
+      clearSelection,
+      startSelected,
+      stopSelected,
     }
   },
 )

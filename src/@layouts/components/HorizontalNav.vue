@@ -21,6 +21,63 @@ const sortFields = [
 
 <template>
   <ul class="nav-items">
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="secondary"
+      >
+        <VIcon
+          icon="tabler-plus"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="error"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+      >
+        <VIcon
+          icon="tabler-trash"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="success"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.startSelected"
+      >
+        <VIcon
+          icon="tabler-play"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="secondary"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.stopSelected"
+      >
+        <VIcon
+          icon="tabler-pause"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <VDivider
+      vertical
+      class="mr-1 ml-1"
+    />
     <li class="nav-link">
       <AppSelect
         v-model="torrentListStore.statusesForFilter"
@@ -56,6 +113,21 @@ const sortFields = [
         class="one-line"
         label="Reverse"
       />
+    </li>
+    <VSpacer />
+    <li>
+      <VBtn
+        v-if="torrentListStore.selectedTorrents.length !== 0"
+        size="70"
+        variant="outlined"
+        color="secondary"
+        @click="torrentListStore.clearSelection"
+      >
+        <VIcon
+          icon="tabler-x"
+          size="50"
+        />
+      </VBtn>
     </li>
   </ul>
 </template>
