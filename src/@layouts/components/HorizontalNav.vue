@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useTorrentListStore } from '@/stores/torrentList'
 import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
+import AddTorrentDialog from '@/views/dialogs/AddTorrentDialog.vue'
 
 const torrentListStore = useTorrentListStore()
 
@@ -27,10 +28,19 @@ const sortFields = [
         variant="outlined"
         color="secondary"
       >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Add torrent
+        </VTooltip>
         <VIcon
           icon="tabler-plus"
           size="50"
         />
+        <Suspense>
+          <AddTorrentDialog />
+        </Suspense>
       </VBtn>
     </li>
     <li>
@@ -39,13 +49,24 @@ const sortFields = [
         variant="outlined"
         color="error"
         :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.deleteSelection(false)"
       >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Remove selected
+        </VTooltip>
         <VIcon
           icon="tabler-trash"
           size="50"
         />
       </VBtn>
     </li>
+    <VDivider
+      vertical
+      class="mr-1 ml-1"
+    />
     <li>
       <VBtn
         size="70"
@@ -54,6 +75,12 @@ const sortFields = [
         :disabled="torrentListStore.selectedTorrents.length === 0"
         @click="torrentListStore.startSelected"
       >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Start selected
+        </VTooltip>
         <VIcon
           icon="tabler-play"
           size="50"
@@ -68,12 +95,22 @@ const sortFields = [
         :disabled="torrentListStore.selectedTorrents.length === 0"
         @click="torrentListStore.stopSelected"
       >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Stop selected
+        </VTooltip>
         <VIcon
           icon="tabler-pause"
           size="50"
         />
       </VBtn>
     </li>
+    <VDivider
+      vertical
+      class="mr-1 ml-1"
+    />
     <li>
       <VBtn
         size="70"
@@ -82,8 +119,34 @@ const sortFields = [
         :disabled="torrentListStore.selectedTorrents.length === 0"
         @click="torrentListStore.verifySelected"
       >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Verify data
+        </VTooltip>
         <VIcon
           icon="tabler-folder-check"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="error"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.deleteSelection(true)"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Remove selected with data
+        </VTooltip>
+        <VIcon
+          icon="tabler-folder-x"
           size="50"
         />
       </VBtn>

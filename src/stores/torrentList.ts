@@ -15,6 +15,10 @@ export const useTorrentListStore = defineStore(
     const sortByField = ref('name')
     const sortDescending = ref(false)
 
+    watch([statusesForFilter, filterString], () => {
+      selectedTorrents.value = []
+    })
+
     const torrents = computed(
       () => sortArray(_torrents.value
         .map(torrent => ({
@@ -74,6 +78,20 @@ export const useTorrentListStore = defineStore(
       selectedTorrents.value = []
     }
 
+    const deleteSelection = (deleteData: boolean) => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'torrent-remove',
+          arguments: {
+            'ids': selectedTorrents.value,
+            'delete-local-data': deleteData,
+          },
+
+        },
+      })
+    }
+
     const startSelected = () => {
       $api('/', {
         method: 'POST',
@@ -122,6 +140,7 @@ export const useTorrentListStore = defineStore(
       sortDescending,
       fetchTorrentList,
       clearSelection,
+      deleteSelection,
       startSelected,
       stopSelected,
       verifySelected,
