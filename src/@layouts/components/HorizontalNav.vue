@@ -74,6 +74,20 @@ const sortFields = [
         />
       </VBtn>
     </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="warning"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.verifySelected"
+      >
+        <VIcon
+          icon="tabler-folder-check"
+          size="50"
+        />
+      </VBtn>
+    </li>
     <VDivider
       vertical
       class="mr-1 ml-1"

@@ -100,6 +100,19 @@ export const useTorrentListStore = defineStore(
       })
     }
 
+    const verifySelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'torrent-verify',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
     return {
       torrents,
       selectedTorrents,
@@ -111,6 +124,7 @@ export const useTorrentListStore = defineStore(
       clearSelection,
       startSelected,
       stopSelected,
+      verifySelected,
     }
   },
 )
