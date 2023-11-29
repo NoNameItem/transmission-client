@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import SetingsDialog from '@/views/dialogs/SetingsDialog.vue'
+
 const startAll = () => {
   $api('/', {
     method: 'POST',
     body: {
       method: 'torrent-start',
-      arguments: {
-      },
+      arguments: {},
     },
   })
 }
@@ -15,8 +16,7 @@ const stopAll = () => {
     method: 'POST',
     body: {
       method: 'torrent-stop',
-      arguments: {
-      },
+      arguments: {},
     },
   })
 }
@@ -45,8 +45,14 @@ const stopAll = () => {
         >
           Stop all
         </VListItem>
-        <VListItem prepend-icon="tabler-settings">
+        <VListItem
+          prepend-icon="tabler-settings"
+          @click.prevent
+        >
           Preferences
+          <Suspense>
+            <SetingsDialog />
+          </Suspense>
         </VListItem>
       </VList>
     </VMenu>
