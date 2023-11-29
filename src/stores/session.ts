@@ -26,14 +26,14 @@ export const useSessionStore = defineStore(
       if (downloadSpeedBytes.value)
         return `${filesize(downloadSpeedBytes.value)}/s`
 
-      return ''
+      return '0 B/s'
     })
 
     const uploadSpeed = computed(() => {
       if (uploadSpeedBytes.value)
         return `${filesize(uploadSpeedBytes.value)}/s`
 
-      return ''
+      return '0 B/s'
     })
 
     const fetchSessionStats = async () => {

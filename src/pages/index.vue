@@ -15,7 +15,7 @@ await settingsStore.fetchSettings(true)
       v-if="torrentListStore.torrents.length > 0"
       v-model:selected="torrentListStore.selectedTorrents"
       lines="two"
-      select-strategy="classic"
+      select-strategy="single-leaf"
     >
       <template
         v-for="(torrent, index) of torrentListStore.torrents"

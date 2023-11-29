@@ -2,6 +2,7 @@
 import { useTorrentListStore } from '@/stores/torrentList'
 import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
 import AddTorrentDialog from '@/views/dialogs/AddTorrentDialog.vue'
+import TorrentFilesDialog from '@/views/dialogs/TorrentFilesDialog.vue'
 
 const torrentListStore = useTorrentListStore()
 
@@ -111,6 +112,28 @@ const sortFields = [
       vertical
       class="mr-1 ml-1"
     />
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="info"
+        :disabled="torrentListStore.selectedTorrents.length !== 1"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Torrent files
+        </VTooltip>
+        <VIcon
+          icon="tabler-folder-search"
+          size="50"
+        />
+        <Suspense>
+          <TorrentFilesDialog />
+        </Suspense>
+      </VBtn>
+    </li>
     <li>
       <VBtn
         size="70"
