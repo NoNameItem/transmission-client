@@ -168,7 +168,7 @@ const setFiles = async () => {
         v-model="selected"
         :items="files"
         :headers="headers"
-        items-per-page="50"
+        items-per-page="-1"
         fixed-header
         hover
         height="calc(100vh - 130px)"
