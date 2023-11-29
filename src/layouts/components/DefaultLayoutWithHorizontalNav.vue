@@ -8,6 +8,7 @@ import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import { HorizontalNavLayout } from '@layouts'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { useSessionStore } from '@/stores/session'
+import NavbarMenu from '@/layouts/components/NavbarMenu.vue'
 
 // SECTION: Loading Indicator
 const isFallbackStateActive = ref(false)
@@ -54,6 +55,7 @@ sessionStats.fetchSessionStats()
       <VSpacer />
 
       <NavbarThemeSwitcher class="me-2" />
+      <NavbarMenu />
     </template>
 
     <AppLoadingIndicator ref="refLoadingIndicator" />
