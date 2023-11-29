@@ -115,10 +115,27 @@ const stats = computed(() => {
 
   return statsString
 })
+
+const isSelected = computed(() => torrentListStore.selectedTorrents.includes(props.torrent.id))
+
+const ctrlState = useKeyModifier('Control')
+const commandState = useKeyModifier('Meta')
+const select = () => {
+  if (!ctrlState.value && !commandState.value) {
+    torrentListStore.selectedTorrents = [props.torrent.id]
+    return
+  }
+
+  if (!torrentListStore.selectedTorrents.includes(props.torrent.id)) {
+    torrentListStore.selectedTorrents.push(props.torrent.id)
+  } else {
+    torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
+  }
+}
 </script>
 
 <template>
-  <VListItem :base-color="color"  :value="props.torrent.id">
+  <VListItem :base-color="color" :active="isSelected" @click="select">
     <VListItemTitle :value="props.torrent.id">
       {{ props.torrent.name }}
       <div class="text-sm">

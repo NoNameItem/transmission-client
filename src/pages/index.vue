@@ -13,9 +13,7 @@ await settingsStore.fetchSettings(true)
   <div>
     <VList
       v-if="torrentListStore.torrents.length > 0"
-      v-model:selected="torrentListStore.selectedTorrents"
       lines="two"
-      select-strategy="single-leaf"
     >
       <template
         v-for="(torrent, index) of torrentListStore.torrents"
