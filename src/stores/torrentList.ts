@@ -7,7 +7,6 @@ export const useTorrentListStore = defineStore(
   'torrentList',
   () => {
     const _torrents: Ref<TorrentListInfo[]> = ref([])
-    const _focused = useWindowFocus()
 
     const selectedTorrents: Ref<number[]> = ref([])
 
@@ -32,47 +31,45 @@ export const useTorrentListStore = defineStore(
     )
 
     const fetchTorrentList = async () => {
-      if (_focused.value) {
-        const data = await $api<ApiResponse<{ torrents: TorrentListInfo[] }>>('/', {
-          method: 'POST',
-          body: {
-            method: 'torrent-get',
-            arguments: {
-              fields: [
-                'id',
-                'queuePosition',
-                'name',
+      const data = await $api<ApiResponse<{ torrents: TorrentListInfo[] }>>('/', {
+        method: 'POST',
+        body: {
+          method: 'torrent-get',
+          arguments: {
+            fields: [
+              'id',
+              'queuePosition',
+              'name',
 
-                'status',
+              'status',
 
-                'downloadedEver',
-                'uploadedEver',
-                'sizeWhenDone',
-                'totalSize',
+              'downloadedEver',
+              'uploadedEver',
+              'sizeWhenDone',
+              'totalSize',
 
-                'percentDone',
-                'uploadRatio',
-                'recheckProgress',
-                'eta',
+              'percentDone',
+              'uploadRatio',
+              'recheckProgress',
+              'eta',
 
-                'rateDownload',
-                'rateUpload',
-                'seedRatioLimit',
+              'rateDownload',
+              'rateUpload',
+              'seedRatioLimit',
 
-                'peersConnected',
-                'peersSendingToUs',
-                'peersGettingFromUs',
+              'peersConnected',
+              'peersSendingToUs',
+              'peersGettingFromUs',
 
-                'error',
-                'errorString',
-              ],
-            },
+              'error',
+              'errorString',
+            ],
           },
-        })
+        },
+      })
 
-        if (data.result === 'success')
-          _torrents.value = data.arguments.torrents
-      }
+      if (data.result === 'success')
+        _torrents.value = data.arguments.torrents
 
       setTimeout(fetchTorrentList, 5000)
     }

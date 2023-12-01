@@ -23,7 +23,7 @@ interface TorrentData {
 }
 
 interface FileData {
-  id: number
+  id: string
   bytesCompleted: number
   length: number
   name: string
@@ -75,7 +75,7 @@ const fetchData = async state => {
 
   const fileData: FileData[] = []
   for (let i = 0; i < response.arguments.torrents[0].files.length; i++)
-    fileData.push({ ...response.arguments.torrents[0].files[i], ...response.arguments.torrents[0].fileStats[i] })
+    fileData.push({ ...response.arguments.torrents[0].files[i], ...response.arguments.torrents[0].fileStats[i], id: response.arguments.torrents[0].files[i].name })
 
   const fileDataSorted = sortArray(
     fileData.map(file => ({
