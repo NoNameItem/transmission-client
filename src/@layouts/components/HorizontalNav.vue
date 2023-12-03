@@ -116,6 +116,90 @@ const sortFields = [
       <VBtn
         size="70"
         variant="outlined"
+        color="primary"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.queueMoveTopSelected"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Move to top
+        </VTooltip>
+        <VIcon
+          icon="tabler-chevrons-up"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="primary"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.queueMoveUpSelected"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Move up
+        </VTooltip>
+        <VIcon
+          icon="tabler-chevron-up"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="primary"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.queueMoveDownSelected"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Move down
+        </VTooltip>
+        <VIcon
+          icon="tabler-chevron-down"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
+        color="primary"
+        :disabled="torrentListStore.selectedTorrents.length === 0"
+        @click="torrentListStore.queueMoveBottomSelected"
+      >
+        <VTooltip
+          activator="parent"
+          location="bottom"
+        >
+          Move to bottom
+        </VTooltip>
+        <VIcon
+          icon="tabler-chevrons-down"
+          size="50"
+        />
+      </VBtn>
+    </li>
+    <VDivider
+      vertical
+      class="mr-1 ml-1"
+    />
+    <li>
+      <VBtn
+        size="70"
+        variant="outlined"
         color="info"
         :disabled="torrentListStore.selectedTorrents.length !== 1"
       >
@@ -175,9 +259,26 @@ const sortFields = [
       </VBtn>
     </li>
     <VDivider
+      v-if="torrentListStore.selectedTorrents.length !== 0"
       vertical
       class="mr-1 ml-1"
     />
+    <li>
+      <VBtn
+        v-if="torrentListStore.selectedTorrents.length !== 0"
+        size="70"
+        variant="outlined"
+        color="secondary"
+        @click="torrentListStore.clearSelection"
+      >
+        <VIcon
+          icon="tabler-x"
+          size="50"
+        />
+      </VBtn>
+    </li>
+  </ul>
+  <ul class="nav-items mt-2">
     <li class="nav-link">
       <AppSelect
         v-model="torrentListStore.statusesForFilter"
@@ -213,21 +314,6 @@ const sortFields = [
         class="one-line"
         label="Reverse"
       />
-    </li>
-    <VSpacer />
-    <li>
-      <VBtn
-        v-if="torrentListStore.selectedTorrents.length !== 0"
-        size="70"
-        variant="outlined"
-        color="secondary"
-        @click="torrentListStore.clearSelection"
-      >
-        <VIcon
-          icon="tabler-x"
-          size="50"
-        />
-      </VBtn>
     </li>
   </ul>
 </template>

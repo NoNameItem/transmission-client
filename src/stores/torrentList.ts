@@ -131,6 +131,58 @@ export const useTorrentListStore = defineStore(
       })
     }
 
+    const queueMoveTopSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'queue-move-top',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
+    const queueMoveUpSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'queue-move-up',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
+    const queueMoveDownSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'queue-move-down',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
+    const queueMoveBottomSelected = () => {
+      $api('/', {
+        method: 'POST',
+        body: {
+          method: 'queue-move-bottom',
+          arguments: {
+            ids: selectedTorrents.value,
+          },
+
+        },
+      })
+    }
+
     return {
       torrents,
       selectedTorrents,
@@ -144,6 +196,10 @@ export const useTorrentListStore = defineStore(
       startSelected,
       stopSelected,
       verifySelected,
+      queueMoveTopSelected,
+      queueMoveUpSelected,
+      queueMoveDownSelected,
+      queueMoveBottomSelected,
     }
   },
 )
