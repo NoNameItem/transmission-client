@@ -40,7 +40,6 @@ const seedQueueEnabled: Ref<boolean | null> = ref(null)
 const seedQueueSize: Ref<number | null> = ref(null)
 const seedRatioLimit: Ref<number | null> = ref(null)
 const seedRatioLimited: Ref<boolean | null> = ref(null)
-const startAddedTorrents: Ref<boolean | null> = ref(null)
 
 watch(visible, async newValue => {
   if (newValue) {
@@ -181,9 +180,10 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="downloadQueueSize"
+                      v-model.number="downloadQueueSize"
                       label="Download queue size"
                       variant="outlined"
+                      type="number"
                       :disabled="!downloadQueueEnabled"
                     />
                   </VCol>
@@ -195,9 +195,10 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="seedQueueSize"
+                      v-model.number="seedQueueSize"
                       label="Upload queue size"
                       variant="outlined"
+                      type="number"
                       :disabled="!seedQueueEnabled"
                     />
                   </VCol>
@@ -209,9 +210,10 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="seedRatioLimit"
+                      v-model.number="seedRatioLimit"
                       label="Ratio limit"
                       variant="outlined"
+                      type="number"
                       :disabled="!seedRatioLimited"
                     />
                   </VCol>
@@ -274,9 +276,10 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="speedLimitDown"
+                      v-model.number="speedLimitDown"
                       label="Download speed"
                       variant="outlined"
+                      type="number"
                       :disabled="!speedLimitDownEnabled"
                     />
                   </VCol>
@@ -288,9 +291,10 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="speedLimitUp"
+                      v-model.number="speedLimitUp"
                       label="Upload speed"
                       variant="outlined"
+                      type="number"
                       :disabled="!speedLimitUpEnabled"
                     />
                   </VCol>
@@ -302,17 +306,19 @@ const saveSettings = async () => {
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="altSpeedDown"
+                      v-model.number="altSpeedDown"
                       label="Download speed"
                       variant="outlined"
+                      type="number"
                       :disabled="!altSpeedEnabled"
                     />
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="altSpeedUp"
+                      v-model.number="altSpeedUp"
                       label="Upload speed"
                       variant="outlined"
+                      type="number"
                       :disabled="!altSpeedEnabled"
                     />
                   </VCol>
@@ -330,8 +336,9 @@ const saveSettings = async () => {
                 <VRow>
                   <VCol cols="12">
                     <VTextField
-                      v-model="peerPort"
+                      v-model.number="peerPort"
                       label="Listening port"
+                      type="number"
                       variant="outlined"
                     />
                   </VCol>
@@ -367,15 +374,17 @@ const saveSettings = async () => {
                 <VRow>
                   <VCol cols="12">
                     <VTextField
-                      v-model="peerLimitPerTorrent"
+                      v-model.number="peerLimitPerTorrent"
                       label="Max peers per torrent"
+                      type="number"
                       variant="outlined"
                     />
                   </VCol>
                   <VCol cols="12">
                     <VTextField
-                      v-model="peerLimitGlobal"
+                      v-model.number="peerLimitGlobal"
                       label="Max peers overall"
+                      type="number"
                       variant="outlined"
                     />
                   </VCol>
