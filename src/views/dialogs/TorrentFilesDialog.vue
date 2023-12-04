@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import sortArray from 'sort-array'
-import { VDataTable } from 'vuetify/labs/VDataTable'
-import { filesize } from 'filesize'
+import { DxColumn, DxScrolling, DxSelection, DxSorting, DxTreeList } from 'devextreme-vue/tree-list'
+
 import { useTorrentListStore } from '@/stores/torrentList'
 import type { ApiResponse } from '@/utils/api'
+import { FileTree } from '@/utils/fileTree'
 
 interface TorrentFile {
   bytesCompleted: number
@@ -32,7 +32,7 @@ interface FileData {
 }
 
 const visible = ref(false)
-const files: Ref<FileData[]> = ref([])
+const files: Ref<FileTree> = ref(new FileTree())
 const torrentName = ref('')
 const selected: Ref<string[]> = ref([])
 const rawFiles: Ref<TorrentFile[]> = ref([])
@@ -47,7 +47,7 @@ const torrentListStore = useTorrentListStore()
 
 const fetchData = async state => {
   if (state.selectedTorrents.length !== 1) {
-    files.value = []
+    files.value = new FileTree()
     torrentName.value = ''
     selected.value = []
     rawFiles.value = []
@@ -56,6 +56,8 @@ const fetchData = async state => {
   }
 
   torrentName.value = torrentListStore.torrents.filter(torrent => torrent.id === state.selectedTorrents[0])[0].name
+  files.value = new FileTree()
+  selected.value = []
 
   const response = await $api<ApiResponse<{ torrents: TorrentData[] }>>('/', {
     method: 'POST',
@@ -73,21 +75,11 @@ const fetchData = async state => {
 
   rawFiles.value = response.arguments.torrents[0].files
 
-  const fileData: FileData[] = []
-  for (let i = 0; i < response.arguments.torrents[0].files.length; i++)
-    fileData.push({ ...response.arguments.torrents[0].files[i], ...response.arguments.torrents[0].fileStats[i], id: response.arguments.torrents[0].files[i].name })
-
-  const fileDataSorted = sortArray(
-    fileData.map(file => ({
-      ...file,
-      size: filesize(file.length),
-      completed: `${((file.bytesCompleted / file.length) * 100).toFixed(2)}%`,
-      id: file.name,
-    })),
-    { by: 'name', order: 'asc' })
-
-  files.value = fileDataSorted
-  selected.value = fileData.filter(file => file.wanted).map(file => file.name)
+  for (let i = 0; i < response.arguments.torrents[0].files.length; i++) {
+    files.value.addFile(response.arguments.torrents[0].files[i].name, response.arguments.torrents[0].files[i].length, response.arguments.torrents[0].files[i].bytesCompleted)
+    if (response.arguments.torrents[0].fileStats[i].wanted)
+      selected.value.push(response.arguments.torrents[0].files[i].name)
+  }
 }
 
 torrentListStore.$subscribe(async (mutation, state) => {
@@ -164,16 +156,45 @@ const setFiles = async () => {
           </VToolbarItems>
         </VToolbar>
       </div>
-      <VDataTable
-        v-model="selected"
-        :items="files"
-        :headers="headers"
-        items-per-page="-1"
-        fixed-header
-        hover
-        height="calc(100vh - 130px)"
-        show-select
-      />
+
+      <VCardText>
+        <div class="dx-viewport">
+          <DxTreeList
+            v-if="files?.roots.length > 0"
+            id="filesTreee"
+            v-model:selected-row-keys="selected"
+            :data-source="files.roots"
+            :auto-expand-all="true"
+            items-expr="children"
+            data-structure="tree"
+            key-expr="path"
+          >
+            <DxSorting mode="single" />
+            <DxScrolling
+              mode="virtual"
+              :preload-enabled="true"
+            />
+            <DxSelection
+              :recursive="true"
+              mode="multiple"
+            />
+            <DxColumn
+              data-field="name"
+              :sort-index="1"
+              sort-order="asc"
+            />
+            <DxColumn
+              data-field="completed"
+              :width="100"
+            />
+            <DxColumn
+              data-field="size"
+              :width="100"
+            />
+            <!-- Configuration goes here -->
+          </DxTreeList>
+        </div>
+      </VCardText>
     </VCard>
   </VDialog>
 </template>

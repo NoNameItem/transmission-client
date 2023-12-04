@@ -32,6 +32,8 @@
     "apexcharts-clevision": "^3.28.5",
     "chart.js": "^4.4.0",
     "cookie-es": "^1.0.0",
+    "devextreme": "23.1",
+    "devextreme-vue": "23.1",
     "filesize": "^10.1.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^3.4.4",
