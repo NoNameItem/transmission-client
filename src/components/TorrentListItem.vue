@@ -20,7 +20,7 @@ const maxRatio = computed(
   }
 )
 
-const status = computed(() => props.torrent.error !== 0 ? 'Error' : getStatusName(props.torrent.status))
+const status = computed(() => props.torrent.error !== 0 ? `${getStatusName(props.torrent.status)} - Error` : getStatusName(props.torrent.status))
 
 const color = computed(() => {
   if (props.torrent.error !== 0)
@@ -53,9 +53,6 @@ const progressBarStriped = computed(() => {
 })
 
 const progress = computed(() => {
-  if (props.torrent.error !== 0)
-    return 100
-
   switch (props.torrent.status) {
     case TorrentStatus.QueuedToVerify:
     case TorrentStatus.Verifying:
