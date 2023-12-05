@@ -15,7 +15,6 @@ export const $api = ofetch.create({
     const sessionId = sessionStore.sessionId ?? ''
 
     options.retry = 10
-    options.retryDelay = 60000
     if (accessToken) {
       options.headers = {
         ...options.headers,
