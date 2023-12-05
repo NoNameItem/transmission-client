@@ -13,7 +13,7 @@ export const useSessionStore = defineStore(
   () => {
     const loaded = ref(false)
 
-    const authString = ref('bmFzLWFkbWluOktkbVlzbkZlMTU0OA==')
+    const authString = ref(import.meta.env.VITE_AUTH_STRING)
     const sessionId: Ref<string | null> = ref(null)
 
     const activeTorrents: Ref<number | null> = ref(null)

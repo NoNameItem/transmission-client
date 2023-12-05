@@ -12,7 +12,7 @@ export const useTorrentListStore = defineStore(
 
     const statusesForFilter: Ref<TorrentStatus[]> = ref([])
     const filterString: Ref<string | null> = ref(null)
-    const sortByField = ref('name')
+    const sortByField = ref('queuePosition')
     const sortDescending = ref(false)
 
     watch([statusesForFilter, filterString], () => {
@@ -201,5 +201,11 @@ export const useTorrentListStore = defineStore(
       queueMoveDownSelected,
       queueMoveBottomSelected,
     }
+  },
+  {
+    persist: {
+      storage: sessionStorage,
+      paths: ['statusesForFilter', 'filterString', 'sortByField', 'sortDescending'],
+    },
   },
 )
