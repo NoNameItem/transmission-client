@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import navItems from '@/navigation/horizontal'
-
 import { themeConfig } from '@themeConfig'
 
 // Components
@@ -30,7 +28,7 @@ sessionStats.fetchSessionStats()
 </script>
 
 <template>
-  <HorizontalNavLayout :nav-items="navItems">
+  <HorizontalNavLayout>
     <!-- 👉 navbar -->
     <template #navbar>
       <div class="app-logo d-flex align-center gap-x-3">

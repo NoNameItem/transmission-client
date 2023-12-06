@@ -3,8 +3,10 @@ import { useTorrentListStore } from '@/stores/torrentList'
 import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
 import AddTorrentDialog from '@/views/dialogs/AddTorrentDialog.vue'
 import TorrentFilesDialog from '@/views/dialogs/TorrentFilesDialog.vue'
+import { useSessionStore } from '@/stores/session'
 
 const torrentListStore = useTorrentListStore()
+const statsStore = useSessionStore()
 
 const statuses = Object.values(TorrentStatus)
   .filter(v => typeof v === 'number')
@@ -308,7 +310,7 @@ const sortFields = [
         label="Sort by"
       />
     </li>
-    <li class="nav-link">
+    <li class="mr-1">
       <VSwitch
         v-model="torrentListStore.sortDescending"
         class="one-line"
@@ -316,6 +318,19 @@ const sortFields = [
       />
     </li>
   </ul>
+  <div
+    v-if="statsStore.allTorrents && torrentListStore.torrents.length !== statsStore.allTorrents"
+    class="mt-2"
+  >
+    Showing {{ torrentListStore.torrents.length }} torrents of {{ statsStore.allTorrents }}
+    <a
+      href="#"
+      class="text-primary"
+      @click="torrentListStore.resetFilters"
+    >
+      Reset filters
+    </a>
+  </div>
 </template>
 
 <style lang="scss">

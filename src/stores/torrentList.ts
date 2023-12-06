@@ -30,6 +30,11 @@ export const useTorrentListStore = defineStore(
       { by: sortByField.value, order: sortDescending.value ? 'desc' : 'asc' }),
     )
 
+    const resetFilters = () => {
+      statusesForFilter.value = []
+      filterString.value = null
+    }
+
     const fetchTorrentList = async () => {
       const data = await $api<ApiResponse<{ torrents: TorrentListInfo[] }>>('/', {
         method: 'POST',
@@ -200,6 +205,7 @@ export const useTorrentListStore = defineStore(
       queueMoveUpSelected,
       queueMoveDownSelected,
       queueMoveBottomSelected,
+      resetFilters,
     }
   },
   {
