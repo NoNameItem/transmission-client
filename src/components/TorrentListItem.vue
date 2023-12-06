@@ -153,7 +153,7 @@ const select = () => {
 <template>
   <VListItem :base-color="color" :active="isSelected" @click="select">
     <VListItemTitle :value="props.torrent.id">
-      {{ props.torrent.name }}
+      ({{ props.torrent.queuePosition + 1 }}) {{ props.torrent.name }}
       <div class="text-sm">
         {{ status }} {{ peersStats }} {{ downloadSpeed }} {{ uploadSpeed }} <span
         v-if="showPercentage">{{ progress.toFixed(2) }}%</span>
