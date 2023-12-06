@@ -2,7 +2,7 @@
 import {filesize} from 'filesize'
 import {Duration} from 'luxon'
 import type {TorrentListInfo} from '@/interfaces/torrents'
-import {TorrentStatus, getStatusName} from '@/interfaces/torrents'
+import {getStatusName, TorrentStatus} from '@/interfaces/torrents'
 import {useSettingsStore} from "@/stores/settings";
 import {useTorrentListStore} from "@/stores/torrentList";
 
@@ -22,12 +22,19 @@ const maxRatio = computed(
 
 const status = computed(() => props.torrent.error !== 0 ? `${getStatusName(props.torrent.status)} - Error` : getStatusName(props.torrent.status))
 
+const isPausedDownload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone < 1)
+const isPausedUpload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone === 1)
+
 const color = computed(() => {
   if (props.torrent.error !== 0)
     return 'error'
 
   switch (props.torrent.status) {
     case TorrentStatus.Stopped:
+      if (isPausedDownload.value)
+        return 'info'
+      if (isPausedUpload)
+        return 'success'
       return 'secondary'
     case TorrentStatus.QueuedToDownload:
     case TorrentStatus.Downloading:
@@ -48,7 +55,7 @@ const progressBarStriped = computed(() => {
     case TorrentStatus.QueuedToVerify:
       return true
     default:
-      return props.torrent.error !== 0
+      return props.torrent.error !== 0 || isPausedUpload.value || isPausedDownload.value
   }
 })
 
@@ -63,6 +70,18 @@ const progress = computed(() => {
         return (props.torrent.uploadRatio / maxRatio.value) * 100
 
       return props.torrent.percentDone * 100
+    case TorrentStatus.Stopped:
+      if (isPausedDownload.value)
+        return props.torrent.percentDone * 100
+
+      if (isPausedUpload.value) {
+        if (props.torrent.seedRatioLimit)
+          return (props.torrent.uploadRatio / maxRatio.value) * 100
+
+        return props.torrent.percentDone * 100
+      }
+
+      break
     default:
       return props.torrent.percentDone * 100
   }
@@ -90,7 +109,7 @@ const showPercentage = computed(() => [
   TorrentStatus.Verifying,
   TorrentStatus.QueuedToSeed,
   TorrentStatus.Seeding,
-].includes(props.torrent.status))
+].includes(props.torrent.status) || isPausedUpload.value || isPausedDownload.value)
 
 const stats = computed(() => {
   if (props.torrent.error !== 0)
@@ -136,7 +155,8 @@ const select = () => {
     <VListItemTitle :value="props.torrent.id">
       {{ props.torrent.name }}
       <div class="text-sm">
-        {{ status }} {{ peersStats }} {{ downloadSpeed }} {{ uploadSpeed }} <span v-if="showPercentage">{{ progress.toFixed(2) }}%</span>
+        {{ status }} {{ peersStats }} {{ downloadSpeed }} {{ uploadSpeed }} <span
+        v-if="showPercentage">{{ progress.toFixed(2) }}%</span>
       </div>
     </VListItemTitle>
 
