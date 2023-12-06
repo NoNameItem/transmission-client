@@ -19,6 +19,9 @@ export const useTorrentListStore = defineStore(
       selectedTorrents.value = []
     })
 
+    const downloadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Downloading).length)
+    const uploadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Seeding).length)
+
     const torrents = computed(
       () => sortArray(_torrents.value
         .map(torrent => ({
@@ -190,6 +193,8 @@ export const useTorrentListStore = defineStore(
 
     return {
       torrents,
+      downloadCount,
+      uploadCount,
       selectedTorrents,
       statusesForFilter,
       filterString,
