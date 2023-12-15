@@ -25,7 +25,7 @@ const status = computed(() => props.torrent.error !== 0 ? `${getStatusName(props
 const isPausedDownload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone < 1)
 const isPausedUpload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone === 1)
 
-const color = computed(() => {
+const progressBarColor = computed(() => {
   if (props.torrent.error !== 0)
     return 'error'
 
@@ -35,6 +35,25 @@ const color = computed(() => {
         return 'info'
       if (isPausedUpload)
         return 'success'
+      return 'secondary'
+    case TorrentStatus.QueuedToDownload:
+    case TorrentStatus.Downloading:
+      return 'info'
+    case TorrentStatus.QueuedToSeed:
+    case TorrentStatus.Seeding:
+      return 'success'
+    case TorrentStatus.QueuedToVerify:
+    case TorrentStatus.Verifying:
+      return 'warning'
+  }
+})
+
+const textColor = computed(() => {
+  if (props.torrent.error !== 0)
+    return 'error'
+
+  switch (props.torrent.status) {
+    case TorrentStatus.Stopped:
       return 'secondary'
     case TorrentStatus.QueuedToDownload:
     case TorrentStatus.Downloading:
@@ -151,7 +170,7 @@ const select = () => {
 </script>
 
 <template>
-  <VListItem :base-color="color" :active="isSelected" @click="select">
+  <VListItem :base-color="textColor" :active="isSelected" @click="select">
     <VListItemTitle :value="props.torrent.id">
       ({{ props.torrent.queuePosition + 1 }}) {{ props.torrent.name }}
       <div class="text-sm">
@@ -165,8 +184,8 @@ const select = () => {
         height="20"
         rounded
         :model-value="progress"
-        :bg-color="color"
-        :color="color"
+        :bg-color="progressBarColor"
+        :color="progressBarColor"
         :striped="progressBarStriped"
       >
       </VProgressLinear>

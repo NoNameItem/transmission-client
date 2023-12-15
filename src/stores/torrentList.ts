@@ -86,8 +86,8 @@ export const useTorrentListStore = defineStore(
       selectedTorrents.value = []
     }
 
-    const deleteSelection = (deleteData: boolean) => {
-      $api('/', {
+    const deleteSelection = async (deleteData: boolean) => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'torrent-remove',
@@ -98,23 +98,23 @@ export const useTorrentListStore = defineStore(
 
         },
       })
+      clearSelection()
     }
 
-    const startSelected = () => {
-      $api('/', {
+    const startSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'torrent-start',
           arguments: {
             ids: selectedTorrents.value,
           },
-
         },
       })
     }
 
-    const stopSelected = () => {
-      $api('/', {
+    const stopSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'torrent-stop',
@@ -126,8 +126,8 @@ export const useTorrentListStore = defineStore(
       })
     }
 
-    const verifySelected = () => {
-      $api('/', {
+    const verifySelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'torrent-verify',
@@ -139,8 +139,8 @@ export const useTorrentListStore = defineStore(
       })
     }
 
-    const queueMoveTopSelected = () => {
-      $api('/', {
+    const queueMoveTopSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'queue-move-top',
@@ -152,8 +152,8 @@ export const useTorrentListStore = defineStore(
       })
     }
 
-    const queueMoveUpSelected = () => {
-      $api('/', {
+    const queueMoveUpSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'queue-move-up',
@@ -165,8 +165,8 @@ export const useTorrentListStore = defineStore(
       })
     }
 
-    const queueMoveDownSelected = () => {
-      $api('/', {
+    const queueMoveDownSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'queue-move-down',
@@ -178,8 +178,8 @@ export const useTorrentListStore = defineStore(
       })
     }
 
-    const queueMoveBottomSelected = () => {
-      $api('/', {
+    const queueMoveBottomSelected = async () => {
+      await $api('/', {
         method: 'POST',
         body: {
           method: 'queue-move-bottom',
