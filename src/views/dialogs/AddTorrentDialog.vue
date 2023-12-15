@@ -26,7 +26,7 @@ const addTorrent = async () => {
         arguments: {
           'download-dir': folder.value,
           'metainfo': fileBase64.value.replace('data:application/x-bittorrent;base64,', ''),
-          'paused': !start,
+          'paused': !start.value,
         },
       },
     },
