@@ -41,6 +41,7 @@ const headers = [
   { title: 'Name', value: 'name' },
   { title: 'Size', value: 'size' },
   { title: 'Progress', value: 'completed' },
+  { title: 'Type', value: 'type' },
 ]
 
 const torrentListStore = useTorrentListStore()
@@ -165,11 +166,13 @@ const setFiles = async () => {
             v-model:selected-row-keys="selected"
             :data-source="files.roots"
             :auto-expand-all="true"
+            :hover-state-enabled="true"
+            :word-wrap-enabled="true"
             items-expr="children"
             data-structure="tree"
             key-expr="path"
           >
-            <DxSorting mode="single" />
+            <DxSorting mode="multiple" />
             <DxScrolling
               mode="virtual"
               :preload-enabled="true"
@@ -180,12 +183,18 @@ const setFiles = async () => {
             />
             <DxColumn
               data-field="name"
-              :sort-index="1"
+              :sort-index="2"
               sort-order="asc"
             />
             <DxColumn
-              data-field="completed"
+              data-field="type"
+              :sort-index="1"
+              sort-order="asc"
               :width="100"
+            />
+            <DxColumn
+              data-field="completed"
+              :width="120"
             />
             <DxColumn
               data-field="size"

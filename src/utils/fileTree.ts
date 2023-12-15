@@ -18,6 +18,10 @@ export class FileTreeNode {
     return filesize(this._sizeBytes)
   }
 
+  get type() {
+    return this.isFile ? 'File' : 'Dir'
+  }
+
   get completed(): string {
     return `${((this._downloadedBytes / this._sizeBytes) * 100).toFixed(2)}%`
   }
