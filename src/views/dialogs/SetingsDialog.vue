@@ -40,6 +40,8 @@ const seedQueueEnabled: Ref<boolean | null> = ref(null)
 const seedQueueSize: Ref<number | null> = ref(null)
 const seedRatioLimit: Ref<number | null> = ref(null)
 const seedRatioLimited: Ref<boolean | null> = ref(null)
+const idleSeedingLimit: Ref<number | null> = ref(null)
+const idleSeedingLimitEnabled: Ref<boolean | null> = ref(null)
 
 watch(visible, async newValue => {
   if (newValue) {
@@ -81,6 +83,8 @@ watch(visible, async newValue => {
     seedQueueSize.value = settingsStore.seedQueueSize
     seedRatioLimit.value = settingsStore.seedRatioLimit
     seedRatioLimited.value = settingsStore.seedRatioLimited
+    idleSeedingLimit.value = settingsStore.idleSeedingLimit
+    idleSeedingLimitEnabled.value = settingsStore.idleSeedingLimitEnabled
   }
 })
 
@@ -118,6 +122,8 @@ const saveSettings = async () => {
           'speed-limit-down': speedLimitDown.value,
           'speed-limit-up-enabled': speedLimitUpEnabled.value,
           'speed-limit-up': speedLimitUp.value,
+          'idle-seeding-limit-enabled': idleSeedingLimitEnabled.value,
+          'idle-seeding-limit': idleSeedingLimit.value,
         },
       },
     },
@@ -215,6 +221,21 @@ const saveSettings = async () => {
                       variant="outlined"
                       type="number"
                       :disabled="!seedRatioLimited"
+                    />
+                  </VCol>
+                  <VCol cols="12">
+                    <VSwitch
+                      v-model="idleSeedingLimitEnabled"
+                      label="Stop seeding if idle for N minutes"
+                    />
+                  </VCol>
+                  <VCol cols="12">
+                    <VTextField
+                      v-model.number="idleSeedingLimit"
+                      label="Maximum idle time (minutes)"
+                      variant="outlined"
+                      type="number"
+                      :disabled="!idleSeedingLimitEnabled"
                     />
                   </VCol>
                 </VRow>

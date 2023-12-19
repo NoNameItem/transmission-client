@@ -38,6 +38,8 @@ interface Settings {
   'seed-queue-size': number
   'seedRatioLimit': number
   'seedRatioLimited': boolean
+  'idle-seeding-limit-enabled': boolean
+  'idle-seeding-limit': number
   'start-added-torrents': boolean
 }
 
@@ -80,6 +82,8 @@ export const useSettingsStore = defineStore(
     const seedQueueSize: Ref<number | null> = ref(null)
     const seedRatioLimit: Ref<number | null> = ref(null)
     const seedRatioLimited: Ref<boolean | null> = ref(null)
+    const idleSeedingLimit: Ref<number | null> = ref(null)
+    const idleSeedingLimitEnabled: Ref<boolean | null> = ref(null)
     const startAddedTorrents: Ref<boolean | null> = ref(null)
 
     const fetchSettings = async (repeat: boolean) => {
@@ -118,6 +122,8 @@ export const useSettingsStore = defineStore(
         seedQueueSize.value = data.arguments['seed-queue-size']
         seedRatioLimit.value = data.arguments['seedRatioLimit']
         seedRatioLimited.value = data.arguments['seedRatioLimited']
+        idleSeedingLimit.value = data.arguments['idle-seeding-limit']
+        idleSeedingLimitEnabled.value = data.arguments['idle-seeding-limit-enabled']
         startAddedTorrents.value = data.arguments['start-added-torrents']
       }
       if (repeat)
@@ -152,6 +158,8 @@ export const useSettingsStore = defineStore(
       seedQueueSize,
       seedRatioLimit,
       seedRatioLimited,
+      idleSeedingLimit,
+      idleSeedingLimitEnabled,
       startAddedTorrents,
 
       fetchSettings,
