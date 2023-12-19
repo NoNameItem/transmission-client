@@ -60,6 +60,7 @@ export const useTorrentListStore = defineStore(
               'uploadRatio',
               'recheckProgress',
               'eta',
+              'etaIdle',
 
               'rateDownload',
               'rateUpload',
@@ -71,6 +72,8 @@ export const useTorrentListStore = defineStore(
 
               'error',
               'errorString',
+
+              'activityDate',
             ],
           },
         },

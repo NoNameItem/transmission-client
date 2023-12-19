@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {filesize} from 'filesize'
-import {Duration} from 'luxon'
+import {Duration, DateTime} from 'luxon'
 import type {TorrentListInfo} from '@/interfaces/torrents'
 import {getStatusName, TorrentStatus} from '@/interfaces/torrents'
 import {useSettingsStore} from "@/stores/settings";
@@ -147,6 +147,18 @@ const stats = computed(() => {
 
     statsString += props.torrent.etaNulled ? ` - ${eta.rescale().toHuman()} remaining` : ' - remaining time unknown'
   }
+
+  if (props.torrent.rateDownload === 0 && props.torrent.rateUpload === 0) {
+    if (props.torrent.activityDate !== 0) {
+      const now = DateTime.now().set({millisecond: 0})
+      const activity = DateTime.fromSeconds(props.torrent.activityDate)
+      const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
+      statsString += ` - last active ${diff.rescale().toHuman()} ago`
+    } else {
+      statsString += ` - never active`
+    }
+  }
+
 
   return statsString
 })
