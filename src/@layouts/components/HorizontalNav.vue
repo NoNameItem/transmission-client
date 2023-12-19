@@ -15,6 +15,7 @@ const statuses = Object.values(TorrentStatus)
 const sortFields = [
   { key: 'name', label: 'Name' },
   { key: 'etaNulled', label: 'Remaining time' },
+  { key: 'lastActive', label: 'Last active' },
   { key: 'queuePosition', label: 'Queue position' },
   { key: 'rateDownload', label: 'Download speed' },
   { key: 'rateUpload', label: 'Upload speed' },

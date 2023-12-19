@@ -1,3 +1,5 @@
+import type { Duration } from '@fullcalendar/core'
+
 export enum TorrentStatus {
   Stopped,
   QueuedToVerify,
@@ -31,6 +33,7 @@ export const getStatusName = (status: TorrentStatus) => {
 
 export interface TorrentListInfo {
   activityDate: number
+  lastActive?: Duration
   downloadedEver: number
   error: number
   errorString: string

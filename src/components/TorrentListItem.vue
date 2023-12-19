@@ -149,11 +149,11 @@ const stats = computed(() => {
   }
 
   if (props.torrent.rateDownload === 0 && props.torrent.rateUpload === 0) {
-    if (props.torrent.activityDate !== 0) {
-      const now = DateTime.now().set({millisecond: 0})
-      const activity = DateTime.fromSeconds(props.torrent.activityDate)
-      const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
-      statsString += ` - last active ${diff.rescale().toHuman()} ago`
+    if (props.torrent.activityDate !== 0 && props.torrent.lastActive) {
+      // const now = DateTime.now().set({millisecond: 0})
+      // const activity = DateTime.fromSeconds(props.torrent.activityDate)
+      // const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
+      statsString += ` - last active ${props.torrent.lastActive.rescale().toHuman()} ago`
     } else {
       statsString += ` - never active`
     }
