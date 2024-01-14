@@ -36,7 +36,7 @@ export const useTorrentListStore = defineStore(
           added: DateTime.now().set({ millisecond: 0 }).diff(DateTime.fromSeconds(torrent.addedDate), 'seconds', { locale: 'en-Us' }),
         }))
         .filter(torrent => (statusesForFilter.value.length === 0 || statusesForFilter.value.includes(torrent.status)))
-        .filter(torrent => (!filterString.value || RegExp(filterString.value, 'ig').test(torrent.name))),
+        .filter(torrent => (!filterString.value || RegExp(filterString.value.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), 'ig').test(torrent.name))),
       { by: sortByField.value, order: sortDescending.value ? 'desc' : 'asc' }),
     )
 
