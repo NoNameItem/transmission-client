@@ -27,6 +27,10 @@ export const useTorrentListStore = defineStore(
       () => sortArray(_torrents.value
         .map(torrent => ({
           ...torrent,
+          activityDate: torrent.activityDate === 0 ? torrent.addedDate : torrent.activityDate,
+        }))
+        .map(torrent => ({
+          ...torrent,
           etaNulled: torrent.error === 0 && torrent.eta >= 0 && (torrent.status === TorrentStatus.Downloading || torrent.status === TorrentStatus.Seeding) ? torrent.eta : null,
           lastActive: DateTime.now().set({ millisecond: 0 }).diff(DateTime.fromSeconds(torrent.activityDate), 'seconds', { locale: 'en-Us' }),
         }))
@@ -76,6 +80,7 @@ export const useTorrentListStore = defineStore(
               'errorString',
 
               'activityDate',
+              'addedDate',
             ],
           },
         },

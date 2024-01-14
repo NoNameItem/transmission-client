@@ -33,6 +33,7 @@ export const getStatusName = (status: TorrentStatus) => {
 
 export interface TorrentListInfo {
   activityDate: number
+  addedDate: number
   lastActive?: Duration
   downloadedEver: number
   error: number
