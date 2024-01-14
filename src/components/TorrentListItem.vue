@@ -142,6 +142,8 @@ const stats = computed(() => {
   statsString += ` - Ratio: ${props.torrent.uploadRatio.toFixed(2)}`
   statsString += maxRatio.value ? ` of ${maxRatio.value}` : ''
 
+  statsString += ` - added ${props.torrent.added.rescale().toHuman()} ago`
+
   if (props.torrent.status === TorrentStatus.Downloading || (props.torrent.status === TorrentStatus.Seeding && props.torrent.seedRatioLimit)) {
     const eta = Duration.fromObject({seconds: props.torrent.etaNulled}, {locale: 'en-Us'})
 
@@ -158,7 +160,6 @@ const stats = computed(() => {
       statsString += ` - never active`
     }
   }
-
 
   return statsString
 })

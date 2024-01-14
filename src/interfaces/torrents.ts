@@ -35,6 +35,7 @@ export interface TorrentListInfo {
   activityDate: number
   addedDate: number
   lastActive?: Duration
+  added?: Duration
   downloadedEver: number
   error: number
   errorString: string
