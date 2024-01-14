@@ -204,9 +204,15 @@ const select = () => {
       </VProgressLinear>
     </VListItemSubtitle>
     <VListItemTitle>
-      <div class="text-sm mt-1">
+      <div class="text-sm mt-1 stats">
         {{ stats }}
       </div>
     </VListItemTitle>
   </VListItem>
 </template>
+
+<style scoped lang="scss">
+.stats {
+  white-space: break-spaces;
+}
+</style>
