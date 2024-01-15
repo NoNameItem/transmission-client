@@ -1,11 +1,18 @@
 import { filesize } from 'filesize'
 import type { ApiResponse } from '@/utils/api'
 
+interface Stats {
+  downloadedBytes: number
+  uploadedBytes: number
+}
+
 interface SessionStats {
   activeTorrentCount: number
   torrentCount: number
   downloadSpeed: number
   uploadSpeed: number
+  'cumulative-stats': Stats
+
 }
 
 export const useSessionStore = defineStore(
@@ -22,6 +29,9 @@ export const useSessionStore = defineStore(
     const downloadSpeedBytes: Ref<number | null> = ref(null)
     const uploadSpeedBytes: Ref<number | null> = ref(null)
 
+    const downloadedBytes: Ref<number | null> = ref(null)
+    const uploadedBytes: Ref<number | null> = ref(null)
+
     const downloadSpeed = computed(() => {
       if (downloadSpeedBytes.value)
         return `${filesize(downloadSpeedBytes.value)}/s`
@@ -29,11 +39,32 @@ export const useSessionStore = defineStore(
       return '0 B/s'
     })
 
+    const downloaded = computed(() => {
+      if (downloadedBytes.value)
+        return filesize(downloadedBytes.value)
+
+      return '0 B'
+    })
+
     const uploadSpeed = computed(() => {
       if (uploadSpeedBytes.value)
         return `${filesize(uploadSpeedBytes.value)}/s`
 
       return '0 B/s'
+    })
+
+    const uploaded = computed(() => {
+      if (uploadedBytes.value)
+        return filesize(uploadedBytes.value)
+
+      return '0 B'
+    })
+
+    const ratio = computed(() => {
+      if (uploadedBytes.value && downloadedBytes.value)
+        return (uploadedBytes.value / downloadedBytes.value).toFixed(2)
+
+      return 'N/A'
     })
 
     const fetchSessionStats = async () => {
@@ -50,6 +81,8 @@ export const useSessionStore = defineStore(
         allTorrents.value = data.arguments.torrentCount
         downloadSpeedBytes.value = data.arguments.downloadSpeed
         uploadSpeedBytes.value = data.arguments.uploadSpeed
+        downloadedBytes.value = data.arguments['cumulative-stats'].downloadedBytes
+        uploadedBytes.value = data.arguments['cumulative-stats'].uploadedBytes
 
         useTitle(`↓${downloadSpeed.value} ↑${uploadSpeed.value}`)
       }
@@ -65,6 +98,9 @@ export const useSessionStore = defineStore(
       allTorrents,
       downloadSpeed,
       uploadSpeed,
+      downloaded,
+      uploaded,
+      ratio,
 
       fetchSessionStats,
     }

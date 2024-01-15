@@ -2,12 +2,11 @@
 import { themeConfig } from '@themeConfig'
 
 // Components
+import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import { HorizontalNavLayout } from '@layouts'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
-import { useSessionStore } from '@/stores/session'
 import NavbarMenu from '@/layouts/components/NavbarMenu.vue'
-import { useTorrentListStore } from '@/stores/torrentList'
 
 // SECTION: Loading Indicator
 const isFallbackStateActive = ref(false)
@@ -22,11 +21,6 @@ watch([isFallbackStateActive, refLoadingIndicator], () => {
     refLoadingIndicator.value.resolveHandle()
 }, { immediate: true })
 // !SECTION
-
-const sessionStats = useSessionStore()
-const torrentListStore = useTorrentListStore()
-
-sessionStats.fetchSessionStats()
 </script>
 
 <template>
@@ -39,18 +33,6 @@ sessionStats.fetchSessionStats()
         <h1 class="app-title font-weight-bold leading-normal text-xl text-capitalize">
           {{ themeConfig.app.title }}
         </h1>
-        <span
-          v-if="sessionStats.loaded"
-          class="text-lg d-none d-sm-inline-block"
-        ><VIcon icon="tabler-arrow-narrow-down" /> {{ torrentListStore.downloadCount }} : {{ sessionStats.downloadSpeed }}</span>
-        <span
-          v-if="sessionStats.loaded"
-          class="text-lg d-none d-sm-inline-block"
-        ><VIcon icon="tabler-arrow-narrow-up" /> {{ torrentListStore.uploadCount }} : {{ sessionStats.uploadSpeed }}</span>
-        <span
-          v-if="sessionStats.loaded"
-          class="text-lg d-none d-md-inline-block"
-        >Active {{ sessionStats.activeTorrents }} of {{ sessionStats.allTorrents }} torrents</span>
       </div>
       <VSpacer />
 
@@ -72,5 +54,8 @@ sessionStats.fetchSessionStats()
     </RouterView>
 
     <!-- 👉 Footer -->
+    <template #footer>
+      <Footer />
+    </template>
   </HorizontalNavLayout>
 </template>
