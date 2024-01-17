@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {filesize} from 'filesize'
-import {Duration, DateTime} from 'luxon'
-import type {TorrentListInfo} from '@/interfaces/torrents'
-import {getStatusName, TorrentStatus} from '@/interfaces/torrents'
-import {useSettingsStore} from "@/stores/settings";
-import {useTorrentListStore} from "@/stores/torrentList";
+import { filesize } from 'filesize'
+import { Duration } from 'luxon'
+import type { TorrentListInfo } from '@/interfaces/torrents'
+import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
+import { useSettingsStore } from '@/stores/settings'
+import { useTorrentListStore } from '@/stores/torrentList'
 
 const props = defineProps<{ torrent: TorrentListInfo }>()
 
@@ -13,11 +13,10 @@ const settingsStore = useSettingsStore()
 
 const maxRatio = computed(
   () => {
-    const global = settingsStore.seedRatioLimited ? settingsStore.seedRatioLimit : 0
-    const local = props.torrent.seedRatioLimit
+    // const local = props.torrent.seedRatioLimit
 
-    return Math.max(<number>global, local)
-  }
+    return settingsStore.seedRatioLimited ? settingsStore.seedRatioLimit : 0
+  },
 )
 
 const status = computed(() => props.torrent.error !== 0 ? `${getStatusName(props.torrent.status)} - Error` : getStatusName(props.torrent.status))
@@ -35,6 +34,7 @@ const progressBarColor = computed(() => {
         return 'info'
       if (isPausedUpload)
         return 'success'
+
       return 'secondary'
     case TorrentStatus.QueuedToDownload:
     case TorrentStatus.Downloading:
@@ -145,7 +145,7 @@ const stats = computed(() => {
   statsString += ` - added ${props.torrent.added.rescale().toHuman()} ago`
 
   if (props.torrent.status === TorrentStatus.Downloading || (props.torrent.status === TorrentStatus.Seeding && props.torrent.seedRatioLimit)) {
-    const eta = Duration.fromObject({seconds: props.torrent.etaNulled}, {locale: 'en-Us'})
+    const eta = Duration.fromObject({ seconds: props.torrent.etaNulled }, { locale: 'en-Us' })
 
     statsString += props.torrent.etaNulled ? ` - ${eta.rescale().toHuman()} remaining` : ' - remaining time unknown'
   }
@@ -156,8 +156,9 @@ const stats = computed(() => {
       // const activity = DateTime.fromSeconds(props.torrent.activityDate)
       // const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
       statsString += ` - last active ${props.torrent.lastActive.rescale().toHuman()} ago`
-    } else {
-      statsString += ` - never active`
+    }
+    else {
+      statsString += ' - never active'
     }
   }
 
@@ -168,27 +169,31 @@ const isSelected = computed(() => torrentListStore.selectedTorrents.includes(pro
 
 const ctrlState = useKeyModifier('Control')
 const commandState = useKeyModifier('Meta')
+
 const select = () => {
   if (!ctrlState.value && !commandState.value) {
     torrentListStore.selectedTorrents = [props.torrent.id]
+
     return
   }
 
-  if (!torrentListStore.selectedTorrents.includes(props.torrent.id)) {
+  if (!torrentListStore.selectedTorrents.includes(props.torrent.id))
     torrentListStore.selectedTorrents.push(props.torrent.id)
-  } else {
+  else
     torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
-  }
 }
 </script>
 
 <template>
-  <VListItem :base-color="textColor" :active="isSelected" @click="select">
+  <VListItem
+    :base-color="textColor"
+    :active="isSelected"
+    @click="select"
+  >
     <VListItemTitle :value="props.torrent.id">
       ({{ props.torrent.queuePosition + 1 }}) {{ props.torrent.name }}
       <div class="text-sm">
-        {{ status }} {{ peersStats }} {{ downloadSpeed }} {{ uploadSpeed }} <span
-        v-if="showPercentage">{{ progress.toFixed(2) }}%</span>
+        {{ status }} {{ peersStats }} {{ downloadSpeed }} {{ uploadSpeed }} <span v-if="showPercentage">{{ progress.toFixed(2) }}%</span>
       </div>
     </VListItemTitle>
 
@@ -200,8 +205,7 @@ const select = () => {
         :bg-color="progressBarColor"
         :color="progressBarColor"
         :striped="progressBarStriped"
-      >
-      </VProgressLinear>
+      />
     </VListItemSubtitle>
     <VListItemTitle>
       <div class="text-sm mt-1 stats">
