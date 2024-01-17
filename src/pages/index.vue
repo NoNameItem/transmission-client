@@ -20,7 +20,7 @@ await settingsStore.fetchSettings(true)
         :key="torrent.id"
       >
         <TorrentListItem
-          v-if="!torrentListStore.compactView"
+          v-if="!torrentListStore.compactView || torrentListStore.selectedTorrents.includes(torrent.id)"
           :torrent="torrent"
         />
         <TorrentListCompactItem
