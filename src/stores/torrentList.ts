@@ -12,6 +12,7 @@ export const useTorrentListStore = defineStore(
     const selectedTorrents: Ref<number[]> = ref([])
 
     const compactView = ref(false)
+    const showMenu = ref(true)
 
     const statusesForFilter: Ref<TorrentStatus[]> = ref([])
     const filterString: Ref<string | null> = ref(null)
@@ -208,6 +209,10 @@ export const useTorrentListStore = defineStore(
       })
     }
 
+    const toggleMenu = () => {
+      showMenu.value = !showMenu.value
+    }
+
     return {
       torrents,
       downloadCount,
@@ -218,7 +223,9 @@ export const useTorrentListStore = defineStore(
       sortByField,
       sortDescending,
       compactView,
+      showMenu,
       toggleView,
+      toggleMenu,
       fetchTorrentList,
       clearSelection,
       deleteSelection,
@@ -235,7 +242,7 @@ export const useTorrentListStore = defineStore(
   {
     persist: {
       storage: sessionStorage,
-      paths: ['statusesForFilter', 'filterString', 'sortByField', 'sortDescending', 'compactView'],
+      paths: ['statusesForFilter', 'filterString', 'sortByField', 'sortDescending', 'compactView', 'showMenu'],
     },
   },
 )

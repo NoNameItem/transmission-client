@@ -42,6 +42,15 @@ sessionStats.fetchSessionStats()
         v-if="sessionStats.loaded"
         class="d-none d-md-inline-block mr-1"
       >Total ratio: {{ sessionStats.ratio }}</span>
+      <IconBtn
+        color="rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity))"
+        @click="torrentListStore.toggleMenu"
+      >
+        <VIcon
+          icon="tabler-menu-2"
+          size="26"
+        />
+      </IconBtn>
     </div>
   </div>
 </template>

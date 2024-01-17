@@ -13,8 +13,6 @@ const settingsStore = useSettingsStore()
 
 const maxRatio = computed(
   () => {
-    // const local = props.torrent.seedRatioLimit
-
     return settingsStore.seedRatioLimited ? settingsStore.seedRatioLimit : 0
   },
 )
@@ -106,17 +104,6 @@ const progress = computed(() => {
   }
 })
 
-const peersStats = computed(() => {
-  if (props.torrent.error === 0) {
-    switch (props.torrent.status) {
-      case TorrentStatus.Seeding:
-        return `to ${props.torrent.peersGettingFromUs} of ${props.torrent.peersConnected} peers`
-      case TorrentStatus.Downloading:
-        return `from ${props.torrent.peersSendingToUs} of ${props.torrent.peersConnected} peers`
-    }
-  }
-})
-
 const downloadSpeed = computed(() => (props.torrent.error === 0 && props.torrent.status === TorrentStatus.Downloading ? `▼ ${filesize((props.torrent.rateDownload))}/s` : ''))
 
 const uploadSpeed = computed(() => props.torrent.error === 0 && (props.torrent.status === TorrentStatus.Downloading || props.torrent.status === TorrentStatus.Seeding) ? `▲ ${filesize((props.torrent.rateUpload))}/s` : '')
@@ -147,15 +134,11 @@ const stats = computed(() => {
   }
 
   if (props.torrent.rateDownload === 0 && props.torrent.rateUpload === 0) {
-    if (props.torrent.activityDate !== 0 && props.torrent.lastActive) {
-      // const now = DateTime.now().set({millisecond: 0})
-      // const activity = DateTime.fromSeconds(props.torrent.activityDate)
-      // const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
+    if (props.torrent.activityDate !== 0 && props.torrent.lastActive)
       statsString += ` Last active: ${props.torrent.lastActive.rescale().toHuman({ unitDisplay: 'short' })} ago`
-    }
-    else {
+
+    else
       statsString += ' Last active: never'
-    }
   }
 
   return statsString

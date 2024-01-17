@@ -4,8 +4,10 @@ import { HorizontalNav } from '@layouts/components'
 // ℹ️ Using import from `@layouts` causing build to hangup
 // import { useLayouts } from '@layouts'
 import { useLayoutConfigStore } from '@layouts/stores/config'
+import { useTorrentListStore } from '@/stores/torrentList'
 
 const configStore = useLayoutConfigStore()
+const torrentListStore = useTorrentListStore()
 </script>
 
 <template>
@@ -24,7 +26,10 @@ const configStore = useLayoutConfigStore()
         </div>
       </div>
       <!-- 👉 Navigation -->
-      <div class="layout-horizontal-nav">
+      <div
+        v-if="torrentListStore.showMenu"
+        class="layout-horizontal-nav"
+      >
         <div class="horizontal-nav-content-container">
           <HorizontalNav />
         </div>
