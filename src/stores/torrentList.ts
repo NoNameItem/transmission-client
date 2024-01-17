@@ -11,6 +11,8 @@ export const useTorrentListStore = defineStore(
 
     const selectedTorrents: Ref<number[]> = ref([])
 
+    const compactView = ref(false)
+
     const statusesForFilter: Ref<TorrentStatus[]> = ref([])
     const filterString: Ref<string | null> = ref(null)
     const sortByField = ref('queuePosition')
@@ -91,6 +93,10 @@ export const useTorrentListStore = defineStore(
         _torrents.value = data.arguments.torrents
 
       setTimeout(fetchTorrentList, 5000)
+    }
+
+    const toggleView = () => {
+      compactView.value = !compactView.value
     }
 
     const clearSelection = () => {
@@ -211,6 +217,8 @@ export const useTorrentListStore = defineStore(
       filterString,
       sortByField,
       sortDescending,
+      compactView,
+      toggleView,
       fetchTorrentList,
       clearSelection,
       deleteSelection,
@@ -227,7 +235,7 @@ export const useTorrentListStore = defineStore(
   {
     persist: {
       storage: sessionStorage,
-      paths: ['statusesForFilter', 'filterString', 'sortByField', 'sortDescending'],
+      paths: ['statusesForFilter', 'filterString', 'sortByField', 'sortDescending', 'compactView'],
     },
   },
 )

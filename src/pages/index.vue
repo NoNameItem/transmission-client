@@ -19,7 +19,14 @@ await settingsStore.fetchSettings(true)
         v-for="(torrent, index) of torrentListStore.torrents"
         :key="torrent.id"
       >
-        <TorrentListItem :torrent="torrent" />
+        <TorrentListItem
+          v-if="!torrentListStore.compactView"
+          :torrent="torrent"
+        />
+        <TorrentListCompactItem
+          v-else
+          :torrent="torrent"
+        />
 
         <VDivider v-if="index !== torrentListStore.torrents.length - 1" />
       </template>

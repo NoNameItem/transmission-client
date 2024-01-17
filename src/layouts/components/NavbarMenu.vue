@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SetingsDialog from '@/views/dialogs/SetingsDialog.vue'
+import { useTorrentListStore } from '@/stores/torrentList'
 
 const startAll = () => {
   $api('/', {
@@ -20,6 +21,10 @@ const stopAll = () => {
     },
   })
 }
+
+const torrentListStore = useTorrentListStore()
+const toggleViewLabel = computed(() => torrentListStore.compactView ? 'Full view' : 'Compact view')
+const toggleViewIcon = computed(() => torrentListStore.compactView ? 'baseline-density-medium' : 'baseline-density-small')
 </script>
 
 <template>
@@ -33,6 +38,12 @@ const stopAll = () => {
       offset="14px"
     >
       <VList>
+        <VListItem
+          :prepend-icon="`tabler-${toggleViewIcon}`"
+          @click="torrentListStore.toggleView"
+        >
+          {{ toggleViewLabel }}
+        </VListItem>
         <VListItem
           prepend-icon="tabler-play"
           @click="startAll"
