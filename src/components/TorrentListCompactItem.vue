@@ -2,7 +2,7 @@
 import { filesize } from 'filesize'
 import { Duration } from 'luxon'
 import type { TorrentListInfo } from '@/interfaces/torrents'
-import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
+import { TorrentStatus } from '@/interfaces/torrents'
 import { useSettingsStore } from '@/stores/settings'
 import { useTorrentListStore } from '@/stores/torrentList'
 
@@ -16,8 +16,6 @@ const maxRatio = computed(
     return settingsStore.seedRatioLimited ? settingsStore.seedRatioLimit : 0
   },
 )
-
-const status = computed(() => props.torrent.error !== 0 ? `${getStatusName(props.torrent.status)} - Error` : getStatusName(props.torrent.status))
 
 const isPausedDownload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone < 1)
 const isPausedUpload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone === 1)
@@ -151,7 +149,12 @@ const commandState = useKeyModifier('Meta')
 
 const select = () => {
   if (!ctrlState.value && !commandState.value) {
-    torrentListStore.selectedTorrents = [props.torrent.id]
+    // torrentListStore.selectedTorrents = [props.torrent.id]
+
+    if (!torrentListStore.selectedTorrents.includes(props.torrent.id))
+      torrentListStore.selectedTorrents = [props.torrent.id]
+    else
+      torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
 
     return
   }

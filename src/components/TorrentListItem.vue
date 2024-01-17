@@ -173,7 +173,12 @@ const commandState = useKeyModifier('Meta')
 
 const select = () => {
   if (!ctrlState.value && !commandState.value) {
-    torrentListStore.selectedTorrents = [props.torrent.id]
+    // torrentListStore.selectedTorrents = [props.torrent.id]
+
+    if (!torrentListStore.selectedTorrents.includes(props.torrent.id))
+      torrentListStore.selectedTorrents = [props.torrent.id]
+    else
+      torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
 
     return
   }
