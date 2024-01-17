@@ -142,12 +142,13 @@ const stats = computed(() => {
   statsString += ` - Ratio: ${props.torrent.uploadRatio.toFixed(2)}`
   statsString += maxRatio.value ? ` of ${maxRatio.value}` : ''
 
-  statsString += ` - added ${props.torrent.added.rescale().toHuman()} ago`
+  statsString += `\nAdded: ${props.torrent.added.rescale().toHuman()} ago`
 
-  if (props.torrent.status === TorrentStatus.Downloading || (props.torrent.status === TorrentStatus.Seeding && props.torrent.seedRatioLimit)) {
+  if ((props.torrent.status === TorrentStatus.Downloading || (props.torrent.status === TorrentStatus.Seeding && props.torrent.seedRatioLimit)) && (props.torrent.rateUpload > 0 || props.torrent.rateDownload > 0)) {
     const eta = Duration.fromObject({ seconds: props.torrent.etaNulled }, { locale: 'en-Us' })
 
-    statsString += props.torrent.etaNulled ? ` - ${eta.rescale().toHuman()} remaining` : ' - remaining time unknown'
+    // statsString += props.torrent.etaNulled ? ` - ${eta.rescale().toHuman()} remaining` : ' - remaining time unknown'
+    statsString += ` - Remaining: ${props.torrent.etaNulled ? eta.rescale().toHuman() : 'unknown'}`
   }
 
   if (props.torrent.rateDownload === 0 && props.torrent.rateUpload === 0) {
@@ -155,10 +156,10 @@ const stats = computed(() => {
       // const now = DateTime.now().set({millisecond: 0})
       // const activity = DateTime.fromSeconds(props.torrent.activityDate)
       // const diff = now.diff(activity, "seconds", {locale: 'en-Us'})
-      statsString += ` - last active ${props.torrent.lastActive.rescale().toHuman()} ago`
+      statsString += ` - Last active: ${props.torrent.lastActive.rescale().toHuman()} ago`
     }
     else {
-      statsString += ' - never active'
+      statsString += ' - Last active: never'
     }
   }
 
