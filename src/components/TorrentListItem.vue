@@ -25,7 +25,7 @@ const isPausedDownload = computed(() => props.torrent.error === 0 && props.torre
 const isPausedUpload = computed(() => props.torrent.error === 0 && props.torrent.status === TorrentStatus.Stopped && props.torrent.percentDone === 1)
 
 const progressBarColor = computed(() => {
-  if (props.torrent.error !== 0)
+  if (props.torrent.error !== 0 && props.torrent.status !== TorrentStatus.QueuedToSeed && props.torrent.status !== TorrentStatus.QueuedToDownload)
     return 'error'
 
   switch (props.torrent.status) {
@@ -49,7 +49,7 @@ const progressBarColor = computed(() => {
 })
 
 const textColor = computed(() => {
-  if (props.torrent.error !== 0)
+  if (props.torrent.error !== 0 && props.torrent.status !== TorrentStatus.QueuedToSeed && props.torrent.status !== TorrentStatus.QueuedToDownload)
     return 'error'
 
   switch (props.torrent.status) {
@@ -131,7 +131,7 @@ const showPercentage = computed(() => [
 ].includes(props.torrent.status) || isPausedUpload.value || isPausedDownload.value)
 
 const stats = computed(() => {
-  if (props.torrent.error !== 0)
+  if (props.torrent.error !== 0 && props.torrent.status !== TorrentStatus.QueuedToSeed && props.torrent.status !== TorrentStatus.QueuedToDownload)
     return props.torrent.errorString
 
   let statsString = ''
