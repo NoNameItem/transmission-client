@@ -21,6 +21,7 @@ const sortFields = [
   { key: 'rateUpload', label: 'Upload speed' },
   { key: 'uploadRatio', label: 'Ratio' },
   { key: 'status', label: 'Status' },
+  { key: 'totalSize', label: 'Total size' },
 ]
 </script>
 
