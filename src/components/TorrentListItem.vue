@@ -4,11 +4,9 @@ import { Duration } from 'luxon'
 import type { TorrentListInfo } from '@/interfaces/torrents'
 import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
 import { useSettingsStore } from '@/stores/settings'
-import { useTorrentListStore } from '@/stores/torrentList'
 
 const props = defineProps<{ torrent: TorrentListInfo }>()
 
-const torrentListStore = useTorrentListStore()
 const settingsStore = useSettingsStore()
 
 const maxRatio = computed(
@@ -166,28 +164,7 @@ const stats = computed(() => {
   return statsString
 })
 
-const isSelected = computed(() => torrentListStore.selectedTorrents.includes(props.torrent.id))
-
-const ctrlState = useKeyModifier('Control')
-const commandState = useKeyModifier('Meta')
-
-const select = () => {
-  if (!ctrlState.value && !commandState.value) {
-    // torrentListStore.selectedTorrents = [props.torrent.id]
-
-    if (!torrentListStore.selectedTorrents.includes(props.torrent.id))
-      torrentListStore.selectedTorrents = [props.torrent.id]
-    else
-      torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
-
-    return
-  }
-
-  if (!torrentListStore.selectedTorrents.includes(props.torrent.id))
-    torrentListStore.selectedTorrents.push(props.torrent.id)
-  else
-    torrentListStore.selectedTorrents = torrentListStore.selectedTorrents.filter(item => item !== props.torrent.id)
-}
+const { isSelected, select } = useSelectTorrents(props.torrent.id)
 </script>
 
 <template>

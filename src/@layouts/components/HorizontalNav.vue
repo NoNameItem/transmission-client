@@ -333,6 +333,12 @@ const sortFields = [
       Reset filters
     </a>
   </div>
+  <div
+    v-if="torrentListStore.selectedTorrents.length > 0"
+    class="mt-2"
+  >
+    Selected {{ torrentListStore.selectedTorrents.length }} torrent{{ torrentListStore.selectedTorrents.length > 1 ? 's' : '' }}
+  </div>
 </template>
 
 <style lang="scss">
