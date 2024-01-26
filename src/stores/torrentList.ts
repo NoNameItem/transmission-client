@@ -18,6 +18,7 @@ export const useTorrentListStore = defineStore(
     const filterString: Ref<string | null> = ref(null)
     const sortByField = ref('queuePosition')
     const sortDescending = ref(false)
+    const showErrors: Ref<'Y' | 'N' | 'O'> = ref('Y')
 
     watch([statusesForFilter, filterString], () => {
       selectedTorrents.value = []
@@ -25,6 +26,7 @@ export const useTorrentListStore = defineStore(
 
     const downloadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Downloading).length)
     const uploadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Seeding).length)
+    const errorCount = computed(() => _torrents.value.filter(torrent => torrent.error !== 0).length)
 
     const torrents = computed(
       () => sortArray(_torrents.value
@@ -39,13 +41,15 @@ export const useTorrentListStore = defineStore(
           added: DateTime.now().set({ millisecond: 0 }).diff(DateTime.fromSeconds(torrent.addedDate), 'seconds', { locale: 'en-Us' }),
         }))
         .filter(torrent => (statusesForFilter.value.length === 0 || statusesForFilter.value.includes(torrent.status)))
-        .filter(torrent => (!filterString.value || RegExp(filterString.value.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), 'ig').test(torrent.name))),
+        .filter(torrent => (!filterString.value || RegExp(filterString.value.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), 'ig').test(torrent.name)))
+        .filter(torrent => showErrors.value === 'Y' ? true : showErrors.value === 'N' ? torrent.error === 0 : torrent.error !== 0),
       { by: sortByField.value, order: sortDescending.value ? 'desc' : 'asc' }),
     )
 
     const resetFilters = () => {
       statusesForFilter.value = []
       filterString.value = null
+      showErrors.value = 'Y'
     }
 
     const fetchTorrentList = async () => {
@@ -217,6 +221,7 @@ export const useTorrentListStore = defineStore(
       torrents,
       downloadCount,
       uploadCount,
+      errorCount,
       selectedTorrents,
       statusesForFilter,
       filterString,
@@ -224,6 +229,7 @@ export const useTorrentListStore = defineStore(
       sortDescending,
       compactView,
       showMenu,
+      showErrors,
       toggleView,
       toggleMenu,
       fetchTorrentList,

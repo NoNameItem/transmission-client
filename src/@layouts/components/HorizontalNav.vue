@@ -23,6 +23,12 @@ const sortFields = [
   { key: 'status', label: 'Status' },
   { key: 'totalSize', label: 'Total size' },
 ]
+
+const showErrorsChoices = [
+  { key: 'Y', label: 'Show' },
+  { key: 'N', label: 'Hide' },
+  { key: 'O', label: 'Only errors' },
+]
 </script>
 
 <template>
@@ -293,6 +299,16 @@ const sortFields = [
         label="Show"
         multiple
         placeholder="All"
+      />
+    </li>
+    <li class="nav-link">
+      <AppSelect
+        v-model="torrentListStore.showErrors"
+        :items="showErrorsChoices"
+        :menu-props="{ maxHeight: '400' }"
+        item-title="label"
+        item-value="key"
+        label="Errors"
       />
     </li>
     <li class="nav-link">

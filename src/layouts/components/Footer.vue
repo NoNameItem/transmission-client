@@ -27,6 +27,10 @@ sessionStats.fetchSessionStats()
         v-if="sessionStats.loaded"
         class="d-none d-md-inline-block mr-1"
       >Active {{ sessionStats.activeTorrents }} of {{ sessionStats.allTorrents }} torrents</span>
+      <span
+        v-if="torrentListStore.errorCount > 0"
+        class="d-none d-md-inline-block mr-1"
+      >Errored {{ torrentListStore.errorCount }} torrent{{ torrentListStore.errorCount > 1 ? 's' : '' }}</span>
     </div>
     <!-- 👉 Footer: right content -->
     <div>
