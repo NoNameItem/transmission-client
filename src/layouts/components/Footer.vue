@@ -16,13 +16,13 @@ sessionStats.fetchSessionStats()
       <span
         v-if="sessionStats.loaded"
         class=" d-inline-block mr-1"
-      ><VIcon icon="tabler-arrow-narrow-down" /> {{ torrentListStore.downloadCount }} : {{
+      ><VIcon icon="tabler-arrow-narrow-down" /> {{ torrentListStore.downloadCount }} ({{ torrentListStore.activeDownloadCount }}) : {{
         sessionStats.downloadSpeed
       }}</span>
       <span
         v-if="sessionStats.loaded"
         class="d-inline-block mr-2"
-      ><VIcon icon="tabler-arrow-narrow-up" /> {{ torrentListStore.uploadCount }} : {{ sessionStats.uploadSpeed }}</span>
+      ><VIcon icon="tabler-arrow-narrow-up" /> {{ torrentListStore.uploadCount }} ({{ torrentListStore.activeUploadCount }}) : {{ sessionStats.uploadSpeed }}</span>
       <span
         v-if="sessionStats.loaded"
         class="d-none d-md-inline-block mr-1"

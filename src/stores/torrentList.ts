@@ -25,7 +25,9 @@ export const useTorrentListStore = defineStore(
     })
 
     const downloadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Downloading).length)
+    const activeDownloadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Downloading && torrent.rateDownload > 0).length)
     const uploadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Seeding).length)
+    const activeUploadCount = computed(() => _torrents.value.filter(torrent => torrent.status === TorrentStatus.Seeding && torrent.rateUpload > 0).length)
     const errorCount = computed(() => _torrents.value.filter(torrent => torrent.error !== 0).length)
 
     const torrents = computed(
@@ -220,7 +222,9 @@ export const useTorrentListStore = defineStore(
     return {
       torrents,
       downloadCount,
+      activeDownloadCount,
       uploadCount,
+      activeUploadCount,
       errorCount,
       selectedTorrents,
       statusesForFilter,
