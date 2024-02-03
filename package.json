@@ -1,6 +1,6 @@
 {
-  "name": "vuexy-vuejs-admin-template",
-  "version": "9.0.1",
+  "name": "transmission-client",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
