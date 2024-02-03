@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/NoNameItem/transmission-client/compare/v1.1.0...v1.1.1) (2024-02-03)
+
+
+### Bug Fixes
+
+* version ([0564018](https://github.com/NoNameItem/transmission-client/commit/0564018edb9d29bc6a3be37bd29065cd1b3fbc23))
+
 ## [1.1.0](https://github.com/NoNameItem/transmission-client/compare/v1.0.0...v1.1.0) (2024-02-03)
 
 
