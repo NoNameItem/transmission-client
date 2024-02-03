@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0](https://github.com/NoNameItem/transmission-client/compare/0.0.1...v0.1.0) (2024-02-03)
+## [1.0.0](https://github.com/NoNameItem/transmission-client/compare/0.0.1...v0.1.0) (2024-02-03)
 
 
 ### Features
