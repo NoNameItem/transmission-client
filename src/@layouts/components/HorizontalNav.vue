@@ -22,6 +22,7 @@ const sortFields = [
   { key: 'uploadRatio', label: 'Ratio' },
   { key: 'status', label: 'Status' },
   { key: 'totalSize', label: 'Total size' },
+  { key: 'etaIdle', label: 'Idle stop' },
 ]
 
 const showErrorsChoices = [

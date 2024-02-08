@@ -161,6 +161,12 @@ const stats = computed(() => {
     }
   }
 
+  if (props.torrent.status === TorrentStatus.Seeding && props.torrent.etaIdle) {
+    const etaIdle = Duration.fromObject({ seconds: props.torrent.etaIdle }, { locale: 'en-Us' })
+
+    statsString += ` - Idle stop in: ${etaIdle.rescale().toHuman()}`
+  }
+
   return statsString
 })
 

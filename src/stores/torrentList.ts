@@ -41,6 +41,7 @@ export const useTorrentListStore = defineStore(
           etaNulled: torrent.error === 0 && torrent.eta >= 0 && (torrent.status === TorrentStatus.Downloading || torrent.status === TorrentStatus.Seeding) ? torrent.eta : null,
           lastActive: DateTime.now().set({ millisecond: 0 }).diff(DateTime.fromSeconds(torrent.activityDate), 'seconds', { locale: 'en-Us' }),
           added: DateTime.now().set({ millisecond: 0 }).diff(DateTime.fromSeconds(torrent.addedDate), 'seconds', { locale: 'en-Us' }),
+          etaIdle: torrent.etaIdle === -1 ? null : torrent.etaIdle,
         }))
         .filter(torrent => (statusesForFilter.value.length === 0 || statusesForFilter.value.includes(torrent.status)))
         .filter(torrent => (!filterString.value || RegExp(filterString.value.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), 'ig').test(torrent.name)))
