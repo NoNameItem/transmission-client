@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SetingsDialog from '@/views/dialogs/SetingsDialog.vue'
 import { useTorrentListStore } from '@/stores/torrentList'
+import FoldersDialog from '@/views/dialogs/FoldersDialog.vue'
 
 const startAll = () => {
   $api('/', {
@@ -63,6 +64,15 @@ const toggleViewIcon = computed(() => torrentListStore.compactView ? 'baseline-d
           Preferences
           <Suspense>
             <SetingsDialog />
+          </Suspense>
+        </VListItem>
+        <VListItem
+          prepend-icon="tabler-folders"
+          @click.prevent
+        >
+          Folders
+          <Suspense>
+            <FoldersDialog />
           </Suspense>
         </VListItem>
       </VList>

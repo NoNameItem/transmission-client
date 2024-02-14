@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { DxAutocomplete } from 'devextreme-vue/autocomplete'
 import { useSettingsStore } from '@/stores/settings'
 import type { ApiResponse } from '@/utils/api'
+import { useFoldersStore } from '@/stores/folders'
 
 const settingsStore = useSettingsStore()
+const foldersStore = useFoldersStore()
 
 await settingsStore.fetchSettings(false)
 
@@ -18,6 +21,8 @@ const onFileInput = (files: File[]) => {
 }
 
 const addTorrent = async () => {
+  foldersStore.addFolder(folder.value)
+
   const response = $api<ApiResponse<any>>('/',
     {
       method: 'POST',
@@ -42,29 +47,34 @@ const addTorrent = async () => {
     activator="parent"
     width="500"
   >
-    <VCard>
+    <VCard class="dialog-card">
       <VCardText>
-        <VRow>
-          <VCol cols="12">
-            <VFileInput
-              label="Torrent file"
-              @update:modelValue="onFileInput"
-            />
-          </VCol>
-          <VCol cols="12">
-            <VTextField
-              v-model="folder"
-              label="Folder"
-              variant="outlined"
-            />
-          </VCol>
-          <VCol cols="12">
-            <VSwitch
-              v-model="start"
-              label="Start when added"
-            />
-          </VCol>
-        </VRow>
+        <div class="dx-viewport">
+          <VRow>
+            <VCol cols="12">
+              <VFileInput
+                label="Torrent file"
+                @update:modelValue="onFileInput"
+              />
+            </VCol>
+            <VCol cols="12">
+              <DxAutocomplete
+                v-model:value="folder"
+                :data-source="foldersStore.folders"
+                :show-clear-button="true"
+                :defer-rendering="false"
+                placeholder="Download to"
+                :drop-down-options="{ container: '.dx-viewport' }"
+              />
+            </VCol>
+            <VCol cols="12">
+              <VSwitch
+                v-model="start"
+                label="Start when added"
+              />
+            </VCol>
+          </VRow>
+        </div>
       </VCardText>
       <VCardActions>
         <VSpacer />
@@ -84,3 +94,9 @@ const addTorrent = async () => {
     </VCard>
   </VDialog>
 </template>
+
+<style lang="scss" scoped>
+.dialog-card {
+  overflow: visible!important;
+}
+</style>
