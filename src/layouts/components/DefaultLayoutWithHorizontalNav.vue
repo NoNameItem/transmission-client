@@ -34,6 +34,7 @@ watch([isFallbackStateActive, refLoadingIndicator], () => {
           {{ themeConfig.app.title }}
         </h1>
       </div>
+
       <VSpacer />
 
       <NavbarThemeSwitcher class="me-2" />

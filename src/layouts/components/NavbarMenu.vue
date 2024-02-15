@@ -2,6 +2,11 @@
 import SetingsDialog from '@/views/dialogs/SetingsDialog.vue'
 import { useTorrentListStore } from '@/stores/torrentList'
 import FoldersDialog from '@/views/dialogs/FoldersDialog.vue'
+import { useConnectionStore } from '@/stores/connection'
+
+const connectionStore = useConnectionStore()
+
+const $api = useApi(true)
 
 const startAll = () => {
   $api('/', {
@@ -74,6 +79,13 @@ const toggleViewIcon = computed(() => torrentListStore.compactView ? 'baseline-d
           <Suspense>
             <FoldersDialog />
           </Suspense>
+        </VListItem>
+        <VListItem
+          v-if="connectionStore.connectionSet"
+          prepend-icon="tabler-logout"
+          @click="connectionStore.disconnect"
+        >
+          Disconnect
         </VListItem>
       </VList>
     </VMenu>

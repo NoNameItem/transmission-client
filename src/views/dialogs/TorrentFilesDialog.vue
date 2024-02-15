@@ -5,6 +5,8 @@ import { useTorrentListStore } from '@/stores/torrentList'
 import type { ApiResponse } from '@/utils/api'
 import { FileTree } from '@/utils/fileTree'
 
+const $api = useApi(true)
+
 interface TorrentFile {
   bytesCompleted: number
   length: number

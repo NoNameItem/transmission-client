@@ -1,5 +1,6 @@
 import { filesize } from 'filesize'
 import type { ApiResponse } from '@/utils/api'
+import { useConnectionStore } from '@/stores/connection'
 
 interface Stats {
   downloadedBytes: number
@@ -20,7 +21,6 @@ export const useSessionStore = defineStore(
   () => {
     const loaded = ref(false)
 
-    const authString = ref(import.meta.env.VITE_AUTH_STRING)
     const sessionId: Ref<string | null> = ref(null)
 
     const activeTorrents: Ref<number | null> = ref(null)
@@ -68,6 +68,13 @@ export const useSessionStore = defineStore(
     })
 
     const fetchSessionStats = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       const data = await $api<ApiResponse<SessionStats>>('/', {
         method: 'POST',
         body: {
@@ -92,7 +99,6 @@ export const useSessionStore = defineStore(
 
     return {
       loaded,
-      authString,
       sessionId,
       activeTorrents,
       allTorrents,

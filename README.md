@@ -4,7 +4,7 @@ This is transmission web-client written with vue3 to replace default web-interfa
 
 ## Installation instruction
 
-1. Clone repo or download latest release
-2. Create file `.env.local` in root directory based on `.env.local.template`
-3. Run `npm install` and `npm run build`
-4. Copy content of `dist` folder to your webserver as static site
+1. Download latest release
+2. Deploy downloaded html/js/css as static site on your web-server
+3. Open url and enter transmission api url (usually ends with `transmission/rpc`) and transmission user and password
+4. Enjoy

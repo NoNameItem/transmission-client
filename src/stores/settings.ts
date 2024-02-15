@@ -1,4 +1,6 @@
 import type { ApiResponse } from '@/utils/api'
+import { useApi } from '@/composables/useApi'
+import { useConnectionStore } from '@/stores/connection'
 
 interface Settings {
 
@@ -87,6 +89,13 @@ export const useSettingsStore = defineStore(
     const startAddedTorrents: Ref<boolean | null> = ref(null)
 
     const fetchSettings = async (repeat: boolean) => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       const data = await $api<ApiResponse<Settings>>('/', {
         method: 'POST',
         body: {

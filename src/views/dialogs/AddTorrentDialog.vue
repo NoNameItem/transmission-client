@@ -4,6 +4,8 @@ import { useSettingsStore } from '@/stores/settings'
 import type { ApiResponse } from '@/utils/api'
 import { useFoldersStore } from '@/stores/folders'
 
+const $api = useApi(true)
+
 const settingsStore = useSettingsStore()
 const foldersStore = useFoldersStore()
 

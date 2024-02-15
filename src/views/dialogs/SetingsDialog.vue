@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useSettingsStore } from '@/stores/settings'
 
+const $api = useApi(true)
+
 const visible = ref(false)
 const settingsStore = useSettingsStore()
 

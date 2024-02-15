@@ -3,6 +3,8 @@ import { DateTime } from 'luxon'
 import { TorrentStatus } from '@/interfaces/torrents'
 import type { TorrentListInfo } from '@/interfaces/torrents'
 import type { ApiResponse } from '@/utils/api'
+import { useApi } from '@/composables/useApi'
+import { useConnectionStore } from '@/stores/connection'
 
 export const useTorrentListStore = defineStore(
   'torrentList',
@@ -56,6 +58,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const fetchTorrentList = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       const data = await $api<ApiResponse<{ torrents: TorrentListInfo[] }>>('/', {
         method: 'POST',
         body: {
@@ -112,6 +121,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const deleteSelection = async (deleteData: boolean) => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -127,6 +143,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const startSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -139,6 +162,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const stopSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -152,6 +182,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const verifySelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -165,6 +202,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const queueMoveTopSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -178,6 +222,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const queueMoveUpSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -191,6 +242,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const queueMoveDownSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {
@@ -204,6 +262,13 @@ export const useTorrentListStore = defineStore(
     }
 
     const queueMoveBottomSelected = async () => {
+      const connectionStore = useConnectionStore()
+
+      if (!connectionStore.connectionSet)
+        return
+
+      const $api = useApi(true)
+
       await $api('/', {
         method: 'POST',
         body: {

@@ -1,42 +1,33 @@
-import { createFetch } from '@vueuse/core'
-import { destr } from 'destr'
+import { ofetch } from 'ofetch'
+import { useSessionStore } from '@/stores/session'
+import { store } from '@/plugins/2.pinia'
+import { useConnectionStore } from '@/stores/connection'
 
-export const useApi = createFetch({
-  baseUrl: import.meta.env.VITE_API_BASE_URL || '/api',
-  fetchOptions: {
-    headers: {
-      Accept: 'application/json',
-    },
-  },
-  options: {
-    refetch: true,
-    async beforeFetch({ options }) {
-      const accessToken = useCookie('accessToken').value
+export const useApi = (retry: boolean) => {
+  const connectionStore = useConnectionStore()
 
+  return ofetch.create({
+    baseURL: connectionStore.baseUrl,
+    async onRequest({ options }) {
+      const sessionStore = useSessionStore(store)
+      const accessToken = connectionStore.authString
+      const sessionId = sessionStore.sessionId ?? ''
+
+      options.retry = retry ? 10 : 0
       if (accessToken) {
         options.headers = {
           ...options.headers,
-          Authorization: `Bearer ${accessToken}`,
-
+          'Authorization': `Basic ${accessToken}`,
+          'X-Transmission-Session-Id': sessionId,
         }
       }
-
-      return { options }
     },
-    afterFetch(ctx) {
-      const { data, response } = ctx
+    async onResponseError({ request, response, options }) {
+      if (response.status === 409) {
+        const sessionStore = useSessionStore(store)
 
-      // Parse data if it's JSON
-
-      let parsedData = null
-      try {
-        parsedData = destr(data)
+        sessionStore.sessionId = response.headers.get('X-Transmission-Session-Id')
       }
-      catch (error) {
-        console.error(error)
-      }
-
-      return { data: parsedData, response }
     },
-  },
-})
+  })
+}

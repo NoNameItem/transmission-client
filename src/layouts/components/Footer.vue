@@ -5,7 +5,7 @@ import { useTorrentListStore } from '@/stores/torrentList'
 const sessionStats = useSessionStore()
 const torrentListStore = useTorrentListStore()
 
-sessionStats.fetchSessionStats()
+// sessionStats.fetchSessionStats()
 </script>
 
 <template>
