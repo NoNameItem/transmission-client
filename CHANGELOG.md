@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.0](https://github.com/NoNameItem/transmission-client/compare/v1.1.1...v2.0.0) (2024-02-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **connection:** connection settings interface
+
+### Features
+
+* **connection:** connection settings interface ([bb1f59f](https://github.com/NoNameItem/transmission-client/commit/bb1f59ffcc81ac2bb090d9cbae713d98625ba0aa))
+* **torrents:** Added idle stop time to torrent compact display ([e93a898](https://github.com/NoNameItem/transmission-client/commit/e93a89812b18e95863daa1e07b8c57ee3ab5ce48))
+* **torrents:** Added idle stop time to torrent display ([9b477ba](https://github.com/NoNameItem/transmission-client/commit/9b477baa51f1d768df58ea392ab7c6dde1d9db18))
+* **torrents:** save used torrent folders in local storage for later reuse ([0cbfd60](https://github.com/NoNameItem/transmission-client/commit/0cbfd601fe41a4abdcf43ab5a5d55e7cb437557e))
+
 ## [1.1.1](https://github.com/NoNameItem/transmission-client/compare/v1.1.0...v1.1.1) (2024-02-03)
 
 
