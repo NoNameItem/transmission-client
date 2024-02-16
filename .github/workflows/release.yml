@@ -1,0 +1,25 @@
+name: release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.x'
+      - run: npm install
+      - run: npm run build
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r transmission_client_${{ github.ref_name }}.zip dist
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: transmission_client_${{ github.ref_name }}.zip
+

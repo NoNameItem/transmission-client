@@ -114,7 +114,6 @@
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.2",
     "unplugin-vue-router": "^0.7.0",
-    "video.js": "^8.6.0",
     "vite": "^4.4.11",
     "vite-plugin-vue-devtools": "1.0.0-rc.5",
     "vite-plugin-vue-layouts": "^0.8.0",
@@ -125,7 +124,6 @@
   "resolutions": {
     "postcss": "^8",
     "@tiptap/core": "^2",
-    "@types/video.js": "^7",
     "pug": "^3",
     "apexcharts": "^3",
     "stylelint-order": "6.0.3"
@@ -133,7 +131,6 @@
   "overrides": {
     "postcss": "^8",
     "@tiptap/core": "^2",
-    "@types/video.js": "^7",
     "pug": "^3",
     "apexcharts": "^3",
     "stylelint-order": "6.0.3"
