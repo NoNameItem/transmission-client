@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/NoNameItem/transmission-client/compare/v2.0.0...v2.1.0) (2024-03-20)
+
+
+### Features
+
+* **torrents:** Sorting by Remaining Time now sorts by remainong time and time to idle stop combined ([c037321](https://github.com/NoNameItem/transmission-client/commit/c0373216b43533448c25a146074fce0f5129edd3))
+
 ## [2.0.0](https://github.com/NoNameItem/transmission-client/compare/v1.1.1...v2.0.0) (2024-02-16)
 
 
