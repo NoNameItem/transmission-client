@@ -5,6 +5,7 @@ import { useConnectionStore } from '@/stores/connection'
 interface Stats {
   downloadedBytes: number
   uploadedBytes: number
+  secondsActive: number
 }
 
 interface SessionStats {
@@ -13,6 +14,7 @@ interface SessionStats {
   downloadSpeed: number
   uploadSpeed: number
   'cumulative-stats': Stats
+  'current-stats': Stats
 
 }
 
@@ -32,6 +34,10 @@ export const useSessionStore = defineStore(
     const downloadedBytes: Ref<number | null> = ref(null)
     const uploadedBytes: Ref<number | null> = ref(null)
 
+    const downloadedBytesSession: Ref<number | null> = ref(null)
+    const uploadedBytesSession: Ref<number | null> = ref(null)
+    const secondsActive: Ref<number | null> = ref(null)
+
     const downloadSpeed = computed(() => {
       if (downloadSpeedBytes.value)
         return `${filesize(downloadSpeedBytes.value)}/s`
@@ -42,6 +48,13 @@ export const useSessionStore = defineStore(
     const downloaded = computed(() => {
       if (downloadedBytes.value)
         return filesize(downloadedBytes.value)
+
+      return '0 B'
+    })
+
+    const downloadedSession = computed(() => {
+      if (downloadedBytesSession.value)
+        return filesize(downloadedBytesSession.value)
 
       return '0 B'
     })
@@ -60,9 +73,23 @@ export const useSessionStore = defineStore(
       return '0 B'
     })
 
+    const uploadedSession = computed(() => {
+      if (uploadedBytesSession.value)
+        return filesize(uploadedBytesSession.value)
+
+      return '0 B'
+    })
+
     const ratio = computed(() => {
       if (uploadedBytes.value && downloadedBytes.value)
         return (uploadedBytes.value / downloadedBytes.value).toFixed(2)
+
+      return 'N/A'
+    })
+
+    const ratioSession = computed(() => {
+      if (uploadedBytesSession.value && downloadedBytesSession.value)
+        return (uploadedBytesSession.value / downloadedBytesSession.value).toFixed(2)
 
       return 'N/A'
     })
@@ -90,6 +117,9 @@ export const useSessionStore = defineStore(
         uploadSpeedBytes.value = data.arguments.uploadSpeed
         downloadedBytes.value = data.arguments['cumulative-stats'].downloadedBytes
         uploadedBytes.value = data.arguments['cumulative-stats'].uploadedBytes
+        downloadedBytesSession.value = data.arguments['current-stats'].downloadedBytes
+        uploadedBytesSession.value = data.arguments['current-stats'].uploadedBytes
+        secondsActive.value = data.arguments['current-stats'].secondsActive
 
         useTitle(`↓${downloadSpeed.value} ↑${uploadSpeed.value}`)
       }
@@ -107,6 +137,10 @@ export const useSessionStore = defineStore(
       downloaded,
       uploaded,
       ratio,
+      downloadedSession,
+      uploadedSession,
+      ratioSession,
+      secondsActive,
 
       fetchSessionStats,
     }
