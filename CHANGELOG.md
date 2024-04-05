@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/NoNameItem/transmission-client/compare/v2.1.0...v2.2.0) (2024-04-05)
+
+
+### Features
+
+* **torrents:** current session stats in footer and total stats in footer tooltip ([4d33c76](https://github.com/NoNameItem/transmission-client/commit/4d33c761a4480762b231482bb1716c57dc3a96be))
+
 ## [2.1.0](https://github.com/NoNameItem/transmission-client/compare/v2.0.0...v2.1.0) (2024-03-20)
 
 
