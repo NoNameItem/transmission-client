@@ -54,26 +54,46 @@ const sessionAge = computed(() => {
           activator="parent"
           location="top"
         >
-          <span
-            v-if="sessionStats.loaded"
-            class=" d-none d-sm-inline-block mr-1"
-          >Total: </span>
-          <span
-            v-if="sessionStats.loaded"
-            class="d-inline-block mr-1"
-          ><VIcon icon="tabler-arrow-narrow-down" /> {{ sessionStats.downloaded }}</span>
-          <span
-            v-if="sessionStats.loaded"
-            class="d-inline-block mr-2"
-          ><VIcon icon="tabler-arrow-narrow-up" /> {{ sessionStats.uploaded }}</span>
-          <span
-            v-if="sessionStats.loaded"
-            class="d-inline-block mr-1"
-          >Ratio: {{ sessionStats.ratio }}</span>
+          <div class="d-block">
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            >Total: </span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            ><VIcon icon="tabler-arrow-narrow-down" /> {{ sessionStats.downloaded }}</span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-2"
+            ><VIcon icon="tabler-arrow-narrow-up" /> {{ sessionStats.uploaded }}</span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            >Ratio: {{ sessionStats.ratio }}</span>
+          </div>
+          <div class="d-block">
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            >Session: </span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            ><VIcon icon="tabler-arrow-narrow-down" /> {{ sessionStats.downloadedSession }}</span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-2"
+            ><VIcon icon="tabler-arrow-narrow-up" /> {{ sessionStats.uploadedSession }}</span>
+            <span
+              v-if="sessionStats.loaded"
+              class="d-inline-block mr-1"
+            >Ratio: {{ sessionStats.ratioSession }}</span>
+          </div>
           <span
             v-if="sessionStats.loaded"
             class="d-block mr-1"
-          >Current session age: {{ sessionAge }}</span>
+          >Session age: {{ sessionAge }}</span>
         </VTooltip>
         <span
           v-if="sessionStats.loaded"
