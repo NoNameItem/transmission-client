@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/NoNameItem/transmission-client/compare/v2.2.0...v2.3.0) (2024-04-27)
+
+
+### Features
+
+* **torrents:** statistic popup improvement ([c662188](https://github.com/NoNameItem/transmission-client/commit/c6621888b22c448f414b7076f8862c8401049211))
+
 ## [2.2.0](https://github.com/NoNameItem/transmission-client/compare/v2.1.0...v2.2.0) (2024-04-05)
 
 
