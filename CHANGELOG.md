@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/NoNameItem/transmission-client/compare/v2.3.0...v2.4.0) (2024-05-02)
+
+
+### Features
+
+* **torrents:** darker colors for light theme for better readability ([33406f6](https://github.com/NoNameItem/transmission-client/commit/33406f6a1bede51ceeb589bbde3a40aeaaf1a205))
+
 ## [2.3.0](https://github.com/NoNameItem/transmission-client/compare/v2.2.0...v2.3.0) (2024-04-27)
 
 
