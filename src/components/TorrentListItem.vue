@@ -129,10 +129,11 @@ const showPercentage = computed(() => [
 ].includes(props.torrent.status) || isPausedUpload.value || isPausedDownload.value)
 
 const stats = computed(() => {
-  if (props.torrent.error !== 0 && props.torrent.status !== TorrentStatus.QueuedToSeed && props.torrent.status !== TorrentStatus.QueuedToDownload)
-    return props.torrent.errorString
-
   let statsString = ''
+
+  if (props.torrent.error !== 0 && props.torrent.status !== TorrentStatus.QueuedToSeed && props.torrent.status !== TorrentStatus.QueuedToDownload)
+    statsString = `${props.torrent.errorString}\n`
+
   statsString += `Downloaded: ${filesize(props.torrent.downloadedEver)}`
   statsString += props.torrent.sizeWhenDone !== props.torrent.totalSize ? ` - Selected: ${filesize(props.torrent.sizeWhenDone)}` : ''
   statsString += ` - Total: ${filesize(props.torrent.totalSize)}`
