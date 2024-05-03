@@ -2,7 +2,7 @@
 import { filesize } from 'filesize'
 import { Duration } from 'luxon'
 import type { TorrentListInfo } from '@/interfaces/torrents'
-import { TorrentStatus } from '@/interfaces/torrents'
+import { TorrentStatus, getStatusName } from '@/interfaces/torrents'
 import { useSettingsStore } from '@/stores/settings'
 
 const props = defineProps<{ torrent: TorrentListInfo }>()
@@ -178,7 +178,7 @@ const { isSelected, select } = useSelectTorrents(props.torrent.id)
         </VCol>
         <VCol cols="auto">
           <div class="text-sm stats">
-            <span v-if="showPercentage">{{ progress.toFixed(2) }}% </span> {{ downloadSpeed }} {{ uploadSpeed }} {{ stats }}
+            {{ getStatusName(torrent.status) }} <span v-if="showPercentage">{{ progress.toFixed(2) }}%</span> {{ downloadSpeed }} {{ uploadSpeed }} {{ stats }}
           </div>
         </VCol>
       </VRow>
