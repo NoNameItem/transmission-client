@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.1](https://github.com/NoNameItem/transmission-client/compare/v2.4.0...v2.4.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **torrents:** show stats for errored torrents ([3ad3f0e](https://github.com/NoNameItem/transmission-client/commit/3ad3f0e1ea222b75be21008c456de355373503ba))
+* **torrents:** show status name in compact view ([03fe822](https://github.com/NoNameItem/transmission-client/commit/03fe82205854526ffafb58b8f7c6e47c1829214d))
+
 ## [2.4.0](https://github.com/NoNameItem/transmission-client/compare/v2.3.0...v2.4.0) (2024-05-02)
 
 
